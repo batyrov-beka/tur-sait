@@ -1,0 +1,83 @@
+
+ <!-- Подробнее басылганда ачылуучу DIV -->
+ <!DOCTYPE html>
+ <html lang="ky">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Туристтик Маалыматтар</title>
+     <link rel="stylesheet" href="er.css">
+     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD..._өзAPIключ&callback=initMap" async defer></script>
+
+ </head>
+ <body>
+ 
+     <!-- Google Maps карта -->
+     <section id="map">
+         <h2>Биздин Локация</h2>
+         <div id="google-map"></div>
+     </section>
+ 
+     <!-- Фотогалерея -->
+     <section id="gallery">
+         <h2>Фотогалерея</h2>
+         <div class="gallery-item">
+             <img src="image1.jpg" alt="Image 1">
+             <img src="image2.jpg" alt="Image 2">
+             <img src="image3.jpg" alt="Image 3">
+         </div>
+     </section>
+ 
+     <!-- Билет баалары -->
+     <section id="ticket-prices">
+         <h2>Билет Баалары</h2>
+         <ul>
+             <li>Билет 1: 1000 сом</li>
+             <li>Билет 2: 1500 сом</li>
+             <li>Билет 3: 2000 сом</li>
+         </ul>
+     </section>
+ 
+     <!-- Отельдер тизмеси -->
+     <section id="hotels">
+         <h2>Отельдер</h2>
+         <ul>
+             <li>Отель 1: 2000 сом/күндүз</li>
+             <li>Отель 2: 2500 сом/күндүз</li>
+             <li>Отель 3: 3000 сом/күндүз</li>
+         </ul>
+     </section>
+ 
+     <!-- Комментарий калтыруу формасы -->
+     <section id="comment-form">
+         <h2>Комментарий калтыруу</h2>
+         <form action="#">
+             <label for="name">Атыңыз:</label>
+             <input type="text" id="name" name="name" required>
+ 
+             <label for="comment">Комментарий:</label>
+             <textarea id="comment" name="comment" rows="4" required></textarea>
+ 
+             <button type="submit">Жиберүү</button>
+         </form>
+     </section>
+ 
+     <script>
+         function initMap() {
+             const location = { lat: 42.8746, lng: 74.6034 };  // Мисал үчүн Бишкек
+             const map = new google.maps.Map(document.getElementById("google-map"), {
+                 zoom: 12,
+                 center: location,
+             });
+             const marker = new google.maps.Marker({
+                 position: location,
+                 map: map,
+                 title: "Биздин Локация",
+             });
+         }
+     </script>
+ 
+ </body>
+ </html>
+   
+      

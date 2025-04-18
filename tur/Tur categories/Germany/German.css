@@ -1,0 +1,429 @@
+* {
+    box-sizing: border-box;
+}
+.container {
+    max-width: 1400px;
+    margin: 0px auto; 
+}
+.container_content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+       
+}
+nav{
+    margin-left: 30px;
+    margin-bottom: 19px;
+    margin-top: 16px;
+}
+nav a {
+    text-decoration: none;
+    margin-right: 45px;
+    transition: all .4s ease;
+    display: inline-block;
+    color: dimgrey;
+}
+nav span a{
+    color: black;
+    font-size: 20px;
+}
+nav a:hover {
+    color: black;
+    transform: scale(1.2);
+}
+
+
+
+.section-content{
+    background-image: url(https://www.onetwotrip.com/ru/blog/static/images/travel-now/time-to-travel.jpg);
+    position: relative;
+    width: 1400px;
+    height: 500px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 10px ;
+    margin-bottom: 100px;
+    color: white;
+    text-align: center;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    padding-top: 130px;
+    
+}
+
+.section-content h1{
+    background-color: rgba(0, 0, 0, 0.5);
+    font-size: 55px;
+    font-family:'Courier New', Courier, monospace;
+}
+.section-content span{
+    font-size: 20px;
+}
+.section-content p{
+    font-size: 23px;
+}
+
+
+
+h2{
+    text-align: center;
+    font-size: 28px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+ul li{
+font-size: 23px;
+
+}
+
+
+iframe{
+    width: 100%;
+    height: 500px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+
+.main-content-img {
+    display: flex;
+    justify-content: center;
+    gap: 20px; 
+    margin-top: 30px;
+    flex-wrap: wrap; 
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .main-content-img img {
+    width: 30%;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    object-fit: cover;
+  }
+
+
+
+
+
+
+
+  
+  /* .content-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin-top: 50px;
+    padding: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .content-row .text {
+    flex: 1;
+    font-size: 80px;
+    line-height: 1.6;
+  }
+  
+  .content-row .image {
+    flex: 1;
+    text-align: right;
+  }
+  
+  .content-row .image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  } */
+  
+
+  .content-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin-top: 50px;
+    padding: 20px;
+    flex-wrap: wrap;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .content-row .text {
+    flex: 1;
+    font-size: 24px;
+    line-height: 1.6;
+  }
+  
+  .content-row .text h3 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .content-row .image {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .content-row .image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+  
+
+
+
+
+  
+  .content-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin-top: 50px;
+    padding: 20px;
+    flex-wrap: wrap;
+   
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .content-row .text li {
+    flex: 1;
+    font-size: 24px;
+    line-height: 1.6;
+    margin-left: 150px;
+    
+  }
+  
+  .content-row .text h3 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #333;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .content-row .image {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .content-row .image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+  
+  
+
+
+
+
+
+  
+
+  .comment-section {
+    max-width: 700px;
+    margin: 50px auto;
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  .comment-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #222;
+  }
+  
+  .comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .comment-form label {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .comment-form input,
+  .comment-form textarea {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: vertical;
+  }
+  
+  .comment-form button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .comment-form button:hover {
+    background-color: #218838;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.block-content {
+    position: fixed;
+    right: 18px;
+    top: 20px;
+    border: none;
+    
+    
+     
+    }
+  
+    
+    .light-content {
+        background-color: #ffffff;
+        color: #000000;
+    }
+    
+    .dark-theme {
+        background-color: #363232;
+        color:white;
+    }
+    .dark-theme a{
+        color:white;
+    }
+    .dark-theme p{
+        color:white;
+    }
+    .dark-theme h1{
+        color:white;
+    }
+    .dark-theme h2{
+        color:white;
+    }
+
+
+
+/* ------------------------------------------------- */
+
+
+.footer-wrap{
+    width: 100%;
+    margin: auto;
+    background-color: black;
+}
+
+
+.container-content {
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.footer {
+    /* padding: 70px 0; */
+    background-color: black;
+    color: white;
+}
+
+.footer-content {
+    padding: 0 15px;
+    margin-left: 60px;
+}
+
+.footer-content h3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 25px;
+    font-weight: 700;
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.footer-content p {
+    line-height: 150%;
+    font-size: 20px;
+}
+
+.footer-content ul li {
+    display: flex;
+    text-decoration: none;
+}
+
+.footer-content span {
+    color: orange;
+}
+
+.footer-content1 a {
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    background-color: rgba(200, 200, 200, 0.1);
+    text-align: center;
+    line-height: 40px;
+    border-radius: 50%;
+    margin: 0 5px 5px 0;
+    transition: 0.5s;
+}
+
+.footer-content1 a:hover {
+    background-color: white;
+}
+
+.input {
+    font-size: 16px;
+    margin-top: 10px;
+    margin-right: 10px;
+
+}
+
+.input1 {
+    font-size: 16px;
+    margin-top: 10px;
+    margin-right: 10px;
+
+}
+
+.input2 {
+    font-size: 16px;
+    margin-top: 10px;
+
+}
