@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb38a"/><stop offset=".7" stop-color="#ffe2c4"/></linearGradient>
+    <linearGradient id="w" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2bb5b0"/><stop offset="1" stop-color="#0e7c86"/></linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#s)"/>
+  <circle cx="400" cy="300" r="110" fill="#fff3e0" opacity=".9"/>
+  <rect y="300" width="800" height="120" fill="url(#w)"/>
+  <path d="M0 330 Q100 320 200 330 T400 330 T600 330 T800 330" stroke="#fff" stroke-opacity=".4" stroke-width="3" fill="none"/>
+  <path d="M0 420 Q400 380 800 420 V500 H0 Z" fill="#f3d9a8"/>
+  <g transform="translate(620 430)" fill="#0b4950">
+    <path d="M-6 0 Q10 -120 30 -230 L38 -228 Q20 -120 8 0 Z"/>
+    <path d="M34 -230 q80 -15 120 40 q-70 -30 -120 -36 z"/><path d="M34 -230 q-75 -30 -130 10 q70 -18 130 -6 z"/>
+    <path d="M34 -232 q25 -70 95 -75 q-55 30 -92 77 z"/><path d="M34 -232 q-40 -60 -105 -50 q60 18 103 52 z"/>
+  </g>
+  <g transform="translate(150 140) scale(.9)" stroke="#0b4950" stroke-width="4" fill="none" stroke-linecap="round">
+    <path d="M0 0 q12 -10 24 0 q12 -10 24 0"/><path d="M70 30 q9 -8 18 0 q9 -8 18 0"/>
+  </g>
+</svg>

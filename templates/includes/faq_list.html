@@ -1,0 +1,8 @@
+<div class="faq">
+  {% for f in faqs %}
+  <details class="faq__item"{% if forloop.first %} open{% endif %}>
+    <summary>{{ f.question }}<i class="fa-solid fa-plus"></i></summary>
+    <div class="faq__answer">{{ f.answer|linebreaks }}</div>
+  </details>
+  {% endfor %}
+</div>

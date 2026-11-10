@@ -1,0 +1,13 @@
+{% load i18n %}
+<article class="card article-card">
+  <a href="{{ article.get_absolute_url }}" class="card__media"><img src="{{ article.cover_url }}" alt="{{ article.title }}" loading="lazy"></a>
+  <div class="card__body">
+    <div class="card__meta">
+      <span><i class="fa-regular fa-calendar"></i> {{ article.created_at|date:"d.m.Y" }}</span>
+      {% if article.country %}<span><i class="fa-solid fa-location-dot"></i> {{ article.country.name }}</span>{% endif %}
+    </div>
+    <h3 class="card__title"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h3>
+    <p class="muted">{{ article.excerpt|default:article.body|truncatewords:22 }}</p>
+    <a href="{{ article.get_absolute_url }}" class="link-arrow">{% translate "Окуу" %} <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</article>

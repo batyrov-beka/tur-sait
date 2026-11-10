@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7fd3d8"/><stop offset="1" stop-color="#e8f6f4"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1aa3a8"/><stop offset="1" stop-color="#0e7c86"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#sky)"/>
+  <circle cx="610" cy="140" r="58" fill="#ffd2a8"/>
+  <path d="M0 330 L150 210 L260 300 L380 170 L520 320 L640 240 L800 330 V500 H0 Z" fill="#9cc9c3"/>
+  <path d="M0 360 L120 300 L240 350 L360 280 L480 350 L620 300 L800 360 V500 H0 Z" fill="#6fb3ab"/>
+  <rect y="380" width="800" height="120" fill="url(#sea)"/>
+  <path d="M0 400 Q50 390 100 400 T200 400 T300 400 T400 400 T500 400 T600 400 T700 400 T800 400" stroke="#ffffff" stroke-opacity=".35" stroke-width="3" fill="none"/>
+  <g transform="translate(250 110) rotate(-12)" fill="#ffffff">
+    <path d="M0 18 L120 10 L150 0 L162 6 L140 22 L120 26 L0 26 Z"/>
+    <path d="M60 18 L40 -14 L56 -14 L92 16 Z"/>
+    <path d="M58 26 L44 52 L60 52 L90 26 Z"/>
+  </g>
+</svg>

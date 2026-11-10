@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% block title %}{% translate "Дүйнө боюнча турлар" %}{% endblock %}
+
+{% block content %}
+<section class="hero" style="--hero-img:url('{% static 'img/hero.svg' %}')">
+  <div class="container hero__inner">
+    <div class="hero__text">
+      <p class="eyebrow"><i class="fa-solid fa-plane-departure"></i> {% translate "Оштон дүйнөнүн бардык бурчуна" %}</p>
+      <h1>{% translate "Ар кандай турлар" %} <span>{% translate "үйдө тынчы кеткендер үчүн" %}</span></h1>
+      <p class="hero__lead">{% translate "Саякат — бул эс алуу, жаңы маданият жана жаңы адамдар. Тур тандаңыз, калганын биз уюштурабыз." %}</p>
+      <ul class="stats">
+        <li><strong>{{ stats.countries }}</strong><span>{% translate "өлкө" %}</span></li>
+        <li><strong>{{ stats.tours }}</strong><span>{% translate "тур" %}</span></li>
+        <li><strong>{{ stats.reviews }}</strong><span>{% translate "пикир" %}</span></li>
+        <li><strong>24/7</strong><span>{% translate "колдоо" %}</span></li>
+      </ul>
+    </div>
+
+    <form class="search-card" action="{% url 'tours:list' %}" method="get">
+      <div class="search-card__field search-card__field--wide">
+        <label for="id_q"><i class="fa-solid fa-magnifying-glass"></i> {{ filter_form.q.label }}</label>
+        {{ filter_form.q }}
+      </div>
+      <div class="search-card__field">
+        <label for="id_country"><i class="fa-solid fa-location-dot"></i> {{ filter_form.country.label }}</label>
+        {{ filter_form.country }}
+      </div>
+      <div class="search-card__field">
+        <label for="id_tour_type"><i class="fa-solid fa-umbrella-beach"></i> {{ filter_form.tour_type.label }}</label>
+        {{ filter_form.tour_type }}
+      </div>
+      <button class="btn btn--primary btn--lg" type="submit"><i class="fa-solid fa-magnifying-glass"></i> {% translate "Тур табуу" %}</button>
+    </form>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section__head">
+      <div><p class="kicker">{% translate "Багыттар" %}</p><h2>{% translate "Популярдуу багыттар" %}</h2></div>
+      <a href="{% url 'tours:list' %}" class="link-arrow">{% translate "Бардык турлар" %} <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+    <div class="grid grid--countries">
+      {% for country in countries %}
+        <a href="{{ country.get_absolute_url }}" class="country-tile reveal">
+          <img src="{{ country.cover_url }}" alt="{{ country.name }}" loading="lazy">
+          <span class="country-tile__count"><i class="fa-solid fa-suitcase-rolling"></i> {{ country.tours.count }}</span>
+          <div class="country-tile__text">
+            <h3>{{ country.name }}</h3>
+            <p>{{ country.short }}</p>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container">
+    <div class="section__head">
+      <div><p class="kicker">{% translate "Сунуштар" %}</p><h2>{% translate "Ысык турлар" %}</h2></div>
+      <a href="{% url 'tours:list' %}?sort=price" class="link-arrow">{% translate "Арзанынан баштап" %} <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+    <div class="grid grid--3">
+      {% for tour in hot_tours %}{% include "includes/tour_card.html" %}{% empty %}<p class="muted">{% translate "Азырынча турлар жок." %}</p>{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <p class="kicker center">{% translate "Жөнөкөй" %}</p>
+    <h2 class="center">{% translate "Кантип брондойт?" %}</h2>
+    <ol class="steps">
+      <li class="reveal"><i class="fa-solid fa-magnifying-glass-location"></i><h3>{% translate "Тур тандаңыз" %}</h3><p>{% translate "Өлкө, баа жана тур түрү боюнча чыпкалаңыз." %}</p></li>
+      <li class="reveal"><i class="fa-regular fa-calendar-check"></i><h3>{% translate "Арыз калтырыңыз" %}</h3><p>{% translate "Күндү, кишилерди жана мейманкананы тандаңыз — баа дароо эсептелет." %}</p></li>
+      <li class="reveal"><i class="fa-solid fa-phone-volume"></i><h3>{% translate "Менеджер чалат" %}</h3><p>{% translate "Бардык деталдарды тактап, келишим түзөбүз." %}</p></li>
+      <li class="reveal"><i class="fa-solid fa-suitcase-rolling"></i><h3>{% translate "Саякатка чыгыңыз" %}</h3><p>{% translate "Билет, ваучер жана камсыздандыруу сизде!" %}</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container">
+    <h2 class="center">{% translate "Эмне үчүн IT Travel?" %}</h2>
+    <div class="grid grid--4 features">
+      <div class="feature reveal"><i class="fa-solid fa-passport"></i><h3>{% translate "Виза жардамы" %}</h3><p>{% translate "Документтерди даярдап, элчиликке жазылууга жардам беребиз." %}</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-tags"></i><h3>{% translate "Ачык баалар" %}</h3><p>{% translate "Баа брондоодо дароо эсептелет — жашырын төлөмдөр жок." %}</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-headset"></i><h3>{% translate "24/7 колдоо" %}</h3><p>{% translate "Саякат учурунда WhatsApp аркылуу ар дайым байланыштабыз." %}</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-shield-heart"></i><h3>{% translate "Камсыздандыруу" %}</h3><p>{% translate "Ар бир турга медициналык камсыздандыруу кирет." %}</p></div>
+    </div>
+  </div>
+</section>
+
+{% if latest_reviews %}
+<section class="section">
+  <div class="container">
+    <h2 class="center">{% translate "Кардарлардын пикирлери" %}</h2>
+    <div class="grid grid--3">
+      {% for r in latest_reviews %}
+        <blockquote class="review-card reveal">
+          <div class="stars">{% for i in "12345" %}<i class="fa-{% if forloop.counter <= r.rating %}solid{% else %}regular{% endif %} fa-star"></i>{% endfor %}</div>
+          <p>{{ r.text|truncatewords:30 }}</p>
+          <footer><strong>{{ r.user.get_full_name|default:r.user.username }}</strong> · <a href="{{ r.tour.get_absolute_url }}">{{ r.tour.title }}</a></footer>
+        </blockquote>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if articles %}
+<section class="section{% if latest_reviews %} section--alt{% endif %}">
+  <div class="container">
+    <div class="section__head">
+      <div><p class="kicker">{% translate "Блог" %}</p><h2>{% translate "Саякатчыга пайдалуу" %}</h2></div>
+      <a href="{% url 'tours:articles' %}" class="link-arrow">{% translate "Бардык макалалар" %} <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+    <div class="grid grid--3">{% for article in articles %}{% include "includes/article_card.html" %}{% endfor %}</div>
+  </div>
+</section>
+{% endif %}
+
+{% if faqs %}
+<section class="section">
+  <div class="container faq-wrap">
+    <div>
+      <p class="kicker">FAQ</p>
+      <h2>{% translate "Көп берилүүчү суроолор" %}</h2>
+      <p class="muted">{% translate "Жообун таппасаңыз — бизге жазыңыз." %}</p>
+      <a href="{% url 'tours:faq' %}" class="btn btn--ghost">{% translate "Бардык суроолор" %}</a>
+    </div>
+    {% include "includes/faq_list.html" %}
+  </div>
+</section>
+{% endif %}
+
+<section class="section section--tight">
+  <div class="container cta">
+    <div>
+      <h2>{% translate "Кайсы турду тандаарды билбей жатасызбы?" %}</h2>
+      <p>{% translate "Номериңизди калтырыңыз — менеджер бекер кеңеш берет." %}</p>
+    </div>
+    <div class="cta__actions">
+      <a href="{% url 'tours:contact' %}" class="btn btn--light btn--lg">{% translate "Кеңеш алуу" %}</a>
+      <a href="https://wa.me/{{ CONTACTS.whatsapp }}" target="_blank" rel="noopener" class="btn btn--outline-light btn--lg"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

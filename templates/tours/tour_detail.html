@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% load i18n humanize %}
+{% block title %}{{ tour.title }}{% endblock %}
+{% block meta_description %}{{ tour.description|truncatewords:25 }}{% endblock %}
+
+{% block content %}
+<section class="banner banner--tour" style="background-image:url('{{ tour.cover_url }}')">
+  <div class="container banner__inner">
+    <nav class="crumbs">
+      <a href="{% url 'tours:home' %}">{% translate "Башкы бет" %}</a> /
+      <a href="{{ tour.country.get_absolute_url }}">{{ tour.country.name }}</a> / {{ tour.title }}
+    </nav>
+    <span class="badge badge--type">{{ tour.get_tour_type_display }}</span>
+    <div class="banner__title-row"><h1>{{ tour.title }}</h1><div class="banner__fav">{% include "includes/fav_button.html" %}</div></div>
+    <ul class="banner__facts">
+      <li><i class="fa-regular fa-clock"></i> {{ tour.duration_days }} {% translate "күн" %}</li>
+      <li><i class="fa-solid fa-location-dot"></i> {{ tour.country.name }}</li>
+      {% if tour.avg_rating %}<li><i class="fa-solid fa-star"></i> {{ tour.avg_rating|floatformat:1 }} ({{ tour.reviews_count }})</li>{% endif %}
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container layout-aside">
+    <div class="stack">
+      <div class="prose">
+        <h2>{% translate "Тур тууралуу" %}</h2>
+        <p>{{ tour.description|linebreaksbr }}</p>
+      </div>
+
+      {% include "includes/country_info.html" with country=tour.country %}
+
+      {% if tour.program_lines %}
+      <div>
+        <h2>{% translate "Программа" %}</h2>
+        <ol class="timeline">{% for line in tour.program_lines %}<li>{{ line }}</li>{% endfor %}</ol>
+      </div>
+      {% endif %}
+
+      {% if tour.includes_lines %}
+      <div>
+        <h2>{% translate "Баага кирет" %}</h2>
+        <ul class="checklist">{% for line in tour.includes_lines %}<li><i class="fa-solid fa-check"></i> {{ line }}</li>{% endfor %}</ul>
+      </div>
+      {% endif %}
+
+      {% if photos %}
+      <div>
+        <h2>{% translate "Фотогалерея" %}</h2>
+        <div class="gallery gallery--sm" data-lightbox>
+          {% for p in photos %}<a href="{{ p.url }}" class="gallery__item"><img src="{{ p.url }}" alt="" loading="lazy"></a>{% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if hotels %}
+      <div>
+        <h2>{% translate "Мейманкана тандоо" %}</h2>
+        <div class="hotel-list">
+          {% for h in hotels %}
+          <div class="hotel-row">
+            <img src="{{ h.cover_url }}" alt="{{ h.name }}" loading="lazy">
+            <div>
+              <strong>{{ h.name }}</strong>
+              <div class="stars">{% for i in h.stars_range %}<i class="fa-solid fa-star"></i>{% endfor %}</div>
+            </div>
+            <div class="price"><strong>{{ h.price_per_night|intcomma }} {% translate "сом" %}</strong><small>/ {% translate "түн" %}</small></div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <div id="reviews">
+        <h2>{% translate "Пикирлер" %} <small class="muted">({{ reviews|length }})</small></h2>
+        {% if user.is_authenticated %}
+          <form method="post" action="{% url 'tours:review' tour.slug %}" class="card card--pad review-form">
+            {% csrf_token %}
+            <h3>{% if user_review %}{% translate "Пикириңизди өзгөртүү" %}{% else %}{% translate "Пикир калтыруу" %}{% endif %}</h3>
+            <div class="star-input">
+              {% for radio in review_form.rating %}
+                <input type="radio" name="{{ radio.data.name }}" value="{{ radio.data.value }}" id="{{ radio.id_for_label }}"{% if radio.data.selected %} checked{% endif %} required>
+                <label for="{{ radio.id_for_label }}" title="{{ radio.data.value }}"><i class="fa-solid fa-star"></i></label>
+              {% endfor %}
+            </div>
+            {% include "includes/field.html" with field=review_form.text %}
+            <button class="btn btn--primary">{% translate "Жөнөтүү" %}</button>
+          </form>
+        {% else %}
+          <p class="note"><a href="{% url 'accounts:login' %}?next={{ request.path }}%23reviews">{% translate "Кириңиз" %}</a> {% translate "пикир калтыруу үчүн." %}</p>
+        {% endif %}
+
+        <div class="reviews">
+          {% for r in reviews %}
+            <article class="review">
+              <div class="review__avatar">{{ r.user.username|first|upper }}</div>
+              <div>
+                <div class="review__head">
+                  <strong>{{ r.user.get_full_name|default:r.user.username }}</strong>
+                  <span class="stars">{% for i in "12345" %}<i class="fa-{% if forloop.counter <= r.rating %}solid{% else %}regular{% endif %} fa-star"></i>{% endfor %}</span>
+                  <time class="muted">{{ r.created_at|date:"d.m.Y" }}</time>
+                </div>
+                <p>{{ r.text|linebreaksbr }}</p>
+              </div>
+            </article>
+          {% empty %}
+            <p class="muted">{% translate "Азырынча пикир жок. Биринчи болуңуз!" %}</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <aside class="sticky">
+      <div class="card card--pad booking-box" id="booking">
+        <div class="booking-box__price">
+          {% if tour.old_price %}<s>{{ tour.old_price|intcomma }} {% translate "сом" %}</s>{% endif %}
+          <strong>{{ tour.price|intcomma }} {% translate "сом" %}</strong>
+          <small>{% translate "1 кишиге" %}</small>
+        </div>
+        {% if user.is_authenticated %}
+          <form method="post" action="{% url 'bookings:create' tour.slug %}" id="booking-form"
+                data-price-url="{% url 'bookings:price' tour.slug %}">
+            {% csrf_token %}
+            {% include "includes/field.html" with field=booking_form.travel_date %}
+            <div class="field-row">
+              {% include "includes/field.html" with field=booking_form.adults %}
+              {% include "includes/field.html" with field=booking_form.children %}
+            </div>
+            {% include "includes/field.html" with field=booking_form.hotel %}
+            {% include "includes/field.html" with field=booking_form.full_name %}
+            {% include "includes/field.html" with field=booking_form.phone %}
+            {% include "includes/field.html" with field=booking_form.email %}
+            {% include "includes/field.html" with field=booking_form.comment %}
+            {% include "includes/field.html" with field=booking_form.promo_code %}
+            <div class="total">
+              <div id="discount-row" class="total__discount" hidden>{% translate "Арзандатуу" %}: −<span id="discount-value">0</span> {% translate "сом" %}</div>
+              {% translate "Жалпы" %}: <strong id="total-price">{{ tour.price|intcomma }}</strong> {% translate "сом" %}
+            </div>
+            <button class="btn btn--primary btn--block btn--lg">{% translate "Брондоо" %}</button>
+            <small class="muted">{% translate "Азыр төлөөнүн кереги жок — менеджер чалып, баарын тактайт." %}</small>
+          </form>
+        {% else %}
+          <p>{% translate "Брондоо үчүн аккаунтка кириңиз же катталыңыз — бул бир мүнөт." %}</p>
+          <a href="{% url 'accounts:login' %}?next={{ request.path }}" class="btn btn--primary btn--block">{% translate "Кирүү" %}</a>
+          <a href="{% url 'accounts:signup' %}?next={{ request.path }}" class="btn btn--ghost btn--block">{% translate "Катталуу" %}</a>
+        {% endif %}
+        <a href="https://wa.me/{{ CONTACTS.whatsapp }}?text={{ tour.title|urlencode }}" target="_blank" rel="noopener" class="btn btn--whatsapp btn--block"><i class="fab fa-whatsapp"></i> {% translate "WhatsApp аркылуу суроо" %}</a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+{% if similar %}
+<section class="section section--alt">
+  <div class="container">
+    <h2>{% translate "Ушул өлкөдөгү башка турлар" %}</h2>
+    <div class="grid grid--3">{% for tour in similar %}{% include "includes/tour_card.html" %}{% endfor %}</div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

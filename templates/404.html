@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}404{% endblock %}
+{% block content %}
+<section class="section"><div class="container empty">
+  <i class="fa-solid fa-compass"></i>
+  <h1>404</h1>
+  <p>{% translate "Мындай барак табылган жок — балким, адашып калдыңыз." %}</p>
+  <a class="btn btn--primary" href="{% url 'tours:home' %}">{% translate "Башкы бетке" %}</a>
+</div></section>
+{% endblock %}

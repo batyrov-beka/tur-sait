@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Көп берилүүчү суроолор" %}{% endblock %}
+{% block content %}
+<section class="page-head"><div class="container"><h1>{% translate "Көп берилүүчү суроолор" %}</h1><p>{% translate "Жообун таппасаңыз — бизге жазыңыз." %}</p></div></section>
+<section class="section section--tight">
+  <div class="container narrow">
+    {% include "includes/faq_list.html" %}
+    <div class="note mt center">{% translate "Суроо калдыбы?" %} <a href="{% url 'tours:contact' %}">{% translate "Байланышыңыз" %}</a> · <a href="https://wa.me/{{ CONTACTS.whatsapp }}" target="_blank" rel="noopener">WhatsApp</a></div>
+  </div>
+</section>
+{% endblock %}

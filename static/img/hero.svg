@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 700" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#062a33"/><stop offset=".55" stop-color="#0b4f59"/><stop offset="1" stop-color="#127a7d"/>
+    </linearGradient>
+    <radialGradient id="sun" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#ffcf9e"/><stop offset=".6" stop-color="#ff9a62" stop-opacity=".9"/><stop offset="1" stop-color="#ff7a45" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="700" fill="url(#bg)"/>
+  <circle cx="1250" cy="260" r="210" fill="url(#sun)"/>
+  <circle cx="1250" cy="260" r="95" fill="#ffd9b3"/>
+  <g fill="#ffffff" opacity=".08">
+    <circle cx="200" cy="120" r="2"/><circle cx="420" cy="80" r="2"/><circle cx="640" cy="150" r="1.5"/>
+    <circle cx="860" cy="60" r="2"/><circle cx="980" cy="170" r="1.5"/><circle cx="1500" cy="90" r="2"/>
+  </g>
+  <path d="M760 520 L960 300 L1090 430 L1230 250 L1420 470 L1600 360 V700 H760 Z" fill="#0f5d63" opacity=".85"/>
+  <path d="M960 300 L1000 345 L975 340 L950 360 L930 335 Z" fill="#ffffff" opacity=".7"/>
+  <path d="M1230 250 L1270 300 L1245 293 L1222 312 L1200 290 Z" fill="#ffffff" opacity=".7"/>
+  <path d="M600 600 L840 430 L1010 560 L1180 470 L1380 580 L1600 500 V700 H600 Z" fill="#0b4950"/>
+  <path d="M0 610 Q200 585 400 610 T800 610 T1200 610 T1600 610 V700 H0 Z" fill="#0e7c86" opacity=".7"/>
+  <path d="M0 640 Q200 620 400 640 T800 640 T1200 640 T1600 640 V700 H0 Z" fill="#13a3a0" opacity=".55"/>
+  <g transform="translate(1340 520)" fill="#062a33">
+    <rect x="-4" y="-150" width="8" height="150" rx="4" transform="rotate(8)"/>
+    <path d="M14 -150 q60 -10 95 30 q-55 -20 -95 -18 z"/>
+    <path d="M14 -150 q-55 -25 -100 5 q55 -10 100 0 z"/>
+    <path d="M14 -152 q20 -55 75 -60 q-45 25 -72 62 z"/>
+    <path d="M14 -152 q-30 -45 -80 -40 q45 15 78 42 z"/>
+  </g>
+  <path d="M1040 150 C 900 130, 760 190, 620 170" stroke="#ffffff" stroke-opacity=".35" stroke-width="2" stroke-dasharray="6 10" fill="none"/>
+  <g transform="translate(1040 150) rotate(-8) scale(.55)" fill="#ffffff">
+    <path d="M0 18 L120 10 L150 0 L162 6 L140 22 L120 26 L0 26 Z"/>
+    <path d="M60 18 L40 -14 L56 -14 L92 16 Z"/>
+    <path d="M58 26 L44 52 L60 52 L90 26 Z"/>
+  </g>
+</svg>

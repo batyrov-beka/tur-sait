@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load i18n humanize %}
+{% block title %}{% translate "Жеке кабинет" %}{% endblock %}
+{% block content %}
+<section class="page-head"><div class="container cabinet-head">
+  <div class="review__avatar review__avatar--lg">{{ user.username|first|upper }}</div>
+  <div><h1>{{ user.get_full_name|default:user.username }}</h1><p>{{ user.email }}</p></div>
+  <div class="actions">
+    <a href="{% url 'accounts:profile' %}" class="btn btn--ghost btn--sm"><i class="fa-regular fa-pen-to-square"></i> {% translate "Профиль" %}</a>
+    <a href="{% url 'accounts:password_change' %}" class="btn btn--ghost btn--sm"><i class="fa-solid fa-key"></i> {% translate "Сырсөз" %}</a>
+  </div>
+</div></section>
+
+<section class="section section--tight">
+  <div class="container">
+    <h2>{% translate "Менин брондоолорум" %}</h2>
+    {% if bookings %}
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>№</th><th>{% translate "Тур" %}</th><th>{% translate "Күнү" %}</th><th>{% translate "Кишилер" %}</th><th>{% translate "Баасы" %}</th><th>{% translate "Статус" %}</th><th></th></tr></thead>
+        <tbody>
+        {% for b in bookings %}
+          <tr>
+            <td>#{{ b.pk }}</td>
+            <td><a href="{{ b.tour.get_absolute_url }}">{{ b.tour.title }}</a><br><small class="muted">{{ b.tour.country.name }}</small></td>
+            <td>{{ b.travel_date|date:"d.m.Y" }}</td>
+            <td>{{ b.people }}</td>
+            <td>{{ b.total_price|intcomma }} {% translate "сом" %}</td>
+            <td><span class="status status--{{ b.status_css }}">{{ b.get_status_display }}</span></td>
+            <td><a href="{% url 'bookings:detail' b.pk %}" class="btn btn--ghost btn--sm">{% translate "Ачуу" %}</a></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+      <div class="empty"><i class="fa-solid fa-suitcase-rolling"></i><p>{% translate "Азырынча брондоо жок." %}</p>
+      <a href="{% url 'tours:list' %}" class="btn btn--primary">{% translate "Тур тандоо" %}</a></div>
+    {% endif %}
+
+    <h2 class="mt">{% translate "Сакталган турлар" %} <i class="fa-solid fa-heart" style="color:var(--accent)"></i></h2>
+    {% if favorites %}
+      <div class="grid grid--3">{% for tour in favorites %}{% include "includes/tour_card.html" %}{% endfor %}</div>
+    {% else %}
+      <p class="muted">{% translate "Жаккан турдагы ♡ белгисин басып, аны ушул жерге сактаңыз." %}</p>
+    {% endif %}
+
+    {% if reviews %}
+    <h2 class="mt">{% translate "Менин пикирлерим" %}</h2>
+    <div class="reviews">
+      {% for r in reviews %}
+        <article class="review"><div>
+          <div class="review__head"><a href="{{ r.tour.get_absolute_url }}"><strong>{{ r.tour.title }}</strong></a>
+            <span class="stars">{% for i in "12345" %}<i class="fa-{% if forloop.counter <= r.rating %}solid{% else %}regular{% endif %} fa-star"></i>{% endfor %}</span></div>
+          <p>{{ r.text }}</p>
+        </div></article>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

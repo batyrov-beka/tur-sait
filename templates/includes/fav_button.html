@@ -1,0 +1,10 @@
+{% load i18n %}{% if user.is_authenticated %}
+<form method="post" action="{% url 'tours:favorite' tour.slug %}" class="fav-form" data-fav>
+  {% csrf_token %}
+  <button class="fav-btn{% if tour.pk in fav_ids %} is-active{% endif %}" type="submit" title="{% translate 'Сактоо' %}" aria-pressed="{% if tour.pk in fav_ids %}true{% else %}false{% endif %}">
+    <i class="fa-{% if tour.pk in fav_ids %}solid{% else %}regular{% endif %} fa-heart"></i>
+  </button>
+</form>
+{% else %}
+<a class="fav-btn" href="{% url 'accounts:login' %}?next={{ request.path }}" title="{% translate 'Сактоо үчүн кириңиз' %}"><i class="fa-regular fa-heart"></i></a>
+{% endif %}

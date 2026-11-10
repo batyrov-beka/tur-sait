@@ -1,0 +1,9 @@
+{% load i18n %}{% if country.has_info %}
+<div class="info-grid">
+  {% if country.visa %}<div class="info-card"><i class="fa-solid fa-passport"></i><small>{% translate "Виза" %}</small><strong>{{ country.visa }}</strong></div>{% endif %}
+  {% if country.flight_time %}<div class="info-card"><i class="fa-solid fa-plane-departure"></i><small>{% translate "Учуу" %}</small><strong>{{ country.flight_time }}</strong></div>{% endif %}
+  {% if country.currency %}<div class="info-card"><i class="fa-solid fa-coins"></i><small>{% translate "Валюта" %}</small><strong>{{ country.currency }}</strong></div>{% endif %}
+  {% if country.best_season %}<div class="info-card"><i class="fa-solid fa-sun"></i><small>{% translate "Мыкты мезгил" %}</small><strong>{{ country.best_season }}</strong></div>{% endif %}
+</div>
+<small class="muted info-note">{% translate "Виза эрежелери өзгөрүшү мүмкүн — сапар алдында текшериңиз." %}</small>
+{% endif %}

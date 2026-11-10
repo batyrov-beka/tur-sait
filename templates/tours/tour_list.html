@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Бардык турлар" %}{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div class="container">
+    <h1>{% translate "Турлар" %}</h1>
+    <p>{% translate "Табылган турлар" %}: <strong>{{ page.paginator.count }}</strong></p>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container layout-sidebar">
+    <aside>
+      <form method="get" class="filter card card--pad" id="filter-form">
+        <h3><i class="fa-solid fa-sliders"></i> {% translate "Чыпка" %}</h3>
+        {% include "includes/field.html" with field=form.q %}
+        {% include "includes/field.html" with field=form.country %}
+        {% include "includes/field.html" with field=form.tour_type %}
+        <div class="field-row">
+          {% include "includes/field.html" with field=form.price_min %}
+          {% include "includes/field.html" with field=form.price_max %}
+        </div>
+        {% include "includes/field.html" with field=form.sort %}
+        <button class="btn btn--primary btn--block" type="submit">{% translate "Көрсөтүү" %}</button>
+        <a href="{% url 'tours:list' %}" class="btn btn--ghost btn--block">{% translate "Тазалоо" %}</a>
+      </form>
+    </aside>
+
+    <div>
+      <div class="grid grid--3 grid--in-sidebar">
+        {% for tour in page %}
+          {% include "includes/tour_card.html" %}
+        {% empty %}
+          <div class="empty">
+            <i class="fa-regular fa-face-frown"></i>
+            <p>{% translate "Мындай тур табылган жок. Чыпканы өзгөртүп көрүңүз." %}</p>
+          </div>
+        {% endfor %}
+      </div>
+
+      {% if page.has_other_pages %}
+      <nav class="pagination">
+        {% if page.has_previous %}<a href="?{{ querystring }}&page={{ page.previous_page_number }}">&laquo;</a>{% endif %}
+        {% for num in page.paginator.page_range %}
+          <a href="?{{ querystring }}&page={{ num }}" class="{% if num == page.number %}is-active{% endif %}">{{ num }}</a>
+        {% endfor %}
+        {% if page.has_next %}<a href="?{{ querystring }}&page={{ page.next_page_number }}">&raquo;</a>{% endif %}
+      </nav>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

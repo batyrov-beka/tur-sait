@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Блог" %}{% endblock %}
+{% block content %}
+<section class="page-head"><div class="container"><h1>{% translate "Блог" %}</h1><p>{% translate "Саякат кеңештери, виза жана өлкөлөр тууралуу пайдалуу маалымат." %}</p></div></section>
+<section class="section section--tight">
+  <div class="container">
+    <div class="grid grid--3">
+      {% for article in page %}{% include "includes/article_card.html" %}
+      {% empty %}<div class="empty"><i class="fa-regular fa-newspaper"></i><p>{% translate "Азырынча макала жок." %}</p></div>{% endfor %}
+    </div>
+    {% if page.has_other_pages %}
+    <nav class="pagination">
+      {% for num in page.paginator.page_range %}<a href="?page={{ num }}" class="{% if num == page.number %}is-active{% endif %}">{{ num }}</a>{% endfor %}
+    </nav>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

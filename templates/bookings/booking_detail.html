@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n humanize %}
+{% block title %}{% translate "Арыз" %} #{{ booking.pk }}{% endblock %}
+{% block content %}
+<section class="page-head"><div class="container"><h1>{% translate "Арыз" %} #{{ booking.pk }}</h1>
+  <span class="status status--{{ booking.status_css }}">{{ booking.get_status_display }}</span></div></section>
+<section class="section section--tight">
+  <div class="container narrow">
+    <div class="card card--pad">
+      <dl class="details">
+        <dt>{% translate "Тур" %}</dt><dd><a href="{{ booking.tour.get_absolute_url }}">{{ booking.tour.title }}</a> ({{ booking.tour.country.name }})</dd>
+        <dt>{% translate "Учуу күнү" %}</dt><dd>{{ booking.travel_date|date:"d.m.Y" }}</dd>
+        <dt>{% translate "Узактыгы" %}</dt><dd>{{ booking.tour.duration_days }} {% translate "күн" %}</dd>
+        <dt>{% translate "Кишилер" %}</dt><dd>{{ booking.adults }} {% translate "чоң" %}{% if booking.children %}, {{ booking.children }} {% translate "бала" %}{% endif %}</dd>
+        <dt>{% translate "Мейманкана" %}</dt><dd>{{ booking.hotel.name|default:"—" }}</dd>
+        <dt>{% translate "Байланыш" %}</dt><dd>{{ booking.full_name }}, {{ booking.phone }}{% if booking.email %}, {{ booking.email }}{% endif %}</dd>
+        {% if booking.comment %}<dt>{% translate "Комментарий" %}</dt><dd>{{ booking.comment }}</dd>{% endif %}
+        {% if booking.promo %}<dt>{% translate "Промокод" %}</dt><dd>{{ booking.promo.code }} (−{{ booking.discount|intcomma }} {% translate "сом" %})</dd>{% endif %}
+        <dt>{% translate "Жалпы баасы" %}</dt><dd class="price"><strong>{{ booking.total_price|intcomma }} {% translate "сом" %}</strong></dd>
+      </dl>
+      <div class="actions">
+        <a href="{% url 'accounts:cabinet' %}" class="btn btn--ghost">{% translate "Менин брондоолорум" %}</a>
+        {% if booking.can_cancel %}
+        <form method="post" action="{% url 'bookings:cancel' booking.pk %}" class="inline" data-confirm="{% translate 'Брондоону чын эле жокко чыгарасызбы?' %}">
+          {% csrf_token %}<button class="btn btn--danger">{% translate "Жокко чыгаруу" %}</button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

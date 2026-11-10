@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Профиль" %}{% endblock %}
+{% block content %}
+<section class="section"><div class="container auth">
+  <form method="post" class="card card--pad">{% csrf_token %}
+    <h1>{% translate "Профиль" %}</h1>
+    {% for field in form %}{% include "includes/field.html" %}{% endfor %}
+    <button class="btn btn--primary btn--block">{% translate "Сактоо" %}</button>
+    <a href="{% url 'accounts:cabinet' %}" class="btn btn--ghost btn--block">{% translate "Артка" %}</a>
+  </form>
+</div></section>
+{% endblock %}

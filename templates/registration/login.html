@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Кирүү" %}{% endblock %}
+{% block content %}
+<section class="section"><div class="container auth">
+  <form method="post" class="card card--pad">{% csrf_token %}
+    <h1>{% translate "Кирүү" %}</h1>
+    {% if form.non_field_errors %}<div class="alert alert--danger">{% translate "Логин же сырсөз туура эмес." %}</div>{% endif %}
+    {% for field in form %}{% include "includes/field.html" %}{% endfor %}
+    <input type="hidden" name="next" value="{{ next }}">
+    <button class="btn btn--primary btn--block">{% translate "Кирүү" %}</button>
+    <p class="center muted">{% translate "Аккаунтуңуз жокпу?" %} <a href="{% url 'accounts:signup' %}{% if next %}?next={{ next|urlencode }}{% endif %}">{% translate "Катталуу" %}</a></p>
+  </form>
+</div></section>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% load i18n humanize %}
+<article class="card tour-card">
+  <a href="{{ tour.get_absolute_url }}" class="card__media">
+    <img src="{{ tour.cover_url }}" alt="{{ tour.title }}" loading="lazy">
+    <span class="badge badge--type">{{ tour.get_tour_type_display }}</span>
+    {% if tour.discount_percent %}<span class="badge badge--sale">−{{ tour.discount_percent }}%</span>
+    {% elif tour.is_hot %}<span class="badge badge--hot"><i class="fa-solid fa-fire"></i> {% translate "Ысык" %}</span>{% endif %}
+  </a>
+  {% include "includes/fav_button.html" %}
+  <div class="card__body">
+    <div class="card__meta">
+      <span><i class="fa-solid fa-location-dot"></i> {{ tour.country.name }}</span>
+      <span><i class="fa-regular fa-clock"></i> {{ tour.duration_days }} {% translate "күн" %}</span>
+    </div>
+    <h3 class="card__title"><a href="{{ tour.get_absolute_url }}">{{ tour.title }}</a></h3>
+    <div class="rating">
+      {% if tour.avg_rating %}<i class="fa-solid fa-star"></i> {{ tour.avg_rating|floatformat:1 }} <small>({{ tour.reviews_count }})</small>
+      {% else %}<small class="muted">{% translate "Азырынча пикир жок" %}</small>{% endif %}
+    </div>
+    <div class="card__footer">
+      <div class="price">
+        {% if tour.old_price %}<s>{{ tour.old_price|intcomma }}</s>{% endif %}
+        <strong>{{ tour.price|intcomma }} {% translate "сом" %}</strong>
+        <small>{% translate "1 кишиге" %}</small>
+      </div>
+      <a href="{{ tour.get_absolute_url }}" class="btn btn--primary btn--sm">{% translate "Толугураак" %}</a>
+    </div>
+  </div>
+</article>

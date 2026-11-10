@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Арыз" %}: {{ tour.title }}{% endblock %}
+{% block content %}
+<section class="page-head"><div class="container"><h1>{% translate "Арыз" %}</h1><p>{{ tour.title }} · {{ tour.country.name }}</p></div></section>
+<section class="section section--tight">
+  <div class="container narrow">
+    <form method="post" class="card card--pad" id="booking-form" data-price-url="{% url 'bookings:price' tour.slug %}">
+      {% csrf_token %}
+      {% if form.non_field_errors %}<div class="alert alert--danger">{{ form.non_field_errors }}</div>{% endif %}
+      {% include "includes/field.html" with field=form.travel_date %}
+      <div class="field-row">
+        {% include "includes/field.html" with field=form.adults %}
+        {% include "includes/field.html" with field=form.children %}
+      </div>
+      {% include "includes/field.html" with field=form.hotel %}
+      {% include "includes/field.html" with field=form.full_name %}
+      {% include "includes/field.html" with field=form.phone %}
+      {% include "includes/field.html" with field=form.email %}
+      {% include "includes/field.html" with field=form.comment %}
+      {% include "includes/field.html" with field=form.promo_code %}
+      <div class="total">
+        <div id="discount-row" class="total__discount" hidden>{% translate "Арзандатуу" %}: −<span id="discount-value">0</span> {% translate "сом" %}</div>
+        {% translate "Жалпы" %}: <strong id="total-price">—</strong> {% translate "сом" %}
+      </div>
+      <button class="btn btn--primary btn--lg btn--block">{% translate "Брондоо" %}</button>
+      <a href="{{ tour.get_absolute_url }}" class="btn btn--ghost btn--block">{% translate "Турга кайтуу" %}</a>
+    </form>
+  </div>
+</section>
+{% endblock %}

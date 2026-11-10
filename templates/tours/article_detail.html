@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block meta_description %}{{ article.excerpt|default:article.body|truncatewords:25 }}{% endblock %}
+{% block content %}
+<section class="banner banner--article" style="background-image:url('{{ article.cover_url }}')">
+  <div class="container banner__inner">
+    <nav class="crumbs"><a href="{% url 'tours:home' %}">{% translate "Башкы бет" %}</a> / <a href="{% url 'tours:articles' %}">{% translate "Блог" %}</a></nav>
+    <h1>{{ article.title }}</h1>
+    <ul class="banner__facts">
+      <li><i class="fa-regular fa-calendar"></i> {{ article.created_at|date:"d.m.Y" }}</li>
+      {% if article.country %}<li><a href="{{ article.country.get_absolute_url }}" style="color:#fff"><i class="fa-solid fa-location-dot"></i> {{ article.country.name }}</a></li>{% endif %}
+      <li><i class="fa-regular fa-eye"></i> {{ article.views|add:1 }}</li>
+    </ul>
+  </div>
+</section>
+<section class="section">
+  <div class="container narrow prose article-body">
+    {% if article.excerpt %}<p class="lead">{{ article.excerpt }}</p>{% endif %}
+    {{ article.body|linebreaks }}
+    <div class="share">
+      <span class="muted">{% translate "Бөлүшүү" %}:</span>
+      <a href="https://wa.me/?text={{ article.title|urlencode }}%20{{ request.build_absolute_uri|urlencode }}" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://t.me/share/url?url={{ request.build_absolute_uri|urlencode }}&text={{ article.title|urlencode }}" target="_blank" rel="noopener" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri|urlencode }}" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+    </div>
+  </div>
+</section>
+{% if related_tours %}
+<section class="section section--alt">
+  <div class="container">
+    <h2>{% translate "Бул багыттагы турлар" %}</h2>
+    <div class="grid grid--3">{% for tour in related_tours %}{% include "includes/tour_card.html" %}{% endfor %}</div>
+  </div>
+</section>
+{% endif %}
+{% if others %}
+<section class="section">
+  <div class="container">
+    <h2>{% translate "Дагы окуңуз" %}</h2>
+    <div class="grid grid--3">{% for article in others %}{% include "includes/article_card.html" %}{% endfor %}</div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

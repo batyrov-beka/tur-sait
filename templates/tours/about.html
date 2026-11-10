@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Биз жөнүндө" %}{% endblock %}
+{% block content %}
+<section class="page-head"><div class="container"><h1>{% translate "Биз жөнүндө" %}</h1></div></section>
+<section class="section section--tight">
+  <div class="container prose narrow">
+    <p>{% translate "IT Travel — Ош шаарындагы туристтик агенттик. Биз Мальдив, Дубай, Европа жана Америкага турларды уюштурабыз: авиабилет, мейманкана, трансфер, камсыздандыруу жана виза боюнча жардам." %}</p>
+    <h2>{% translate "Кантип иштейбиз" %}</h2>
+    <ol class="timeline">
+      <li>{% translate "Сайттан тур тандап, онлайн арыз калтырасыз." %}</li>
+      <li>{% translate "Менеджер чалып, күндү жана мейманкананы тактайт." %}</li>
+      <li>{% translate "Келишим түзүп, төлөм жүргүзөсүз." %}</li>
+      <li>{% translate "Документтерди алып, саякатка чыгасыз!" %}</li>
+    </ol>
+    <p><a class="btn btn--primary" href="{% url 'tours:list' %}">{% translate "Турларды көрүү" %}</a></p>
+  </div>
+</section>
+{% endblock %}

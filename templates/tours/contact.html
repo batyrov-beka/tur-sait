@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Байланыш" %}{% endblock %}
+{% block content %}
+<section class="page-head"><div class="container"><h1>{% translate "Байланыш" %}</h1><p>{% translate "Суроо калтырыңыз — 15 мүнөттүн ичинде жооп беребиз (иш убагында)." %}</p></div></section>
+<section class="section section--tight">
+  <div class="container two-col">
+    <form method="post" class="card card--pad" novalidate>
+      {% csrf_token %}
+      {% for field in form %}{% include "includes/field.html" %}{% endfor %}
+      <button class="btn btn--primary btn--lg">{% translate "Жөнөтүү" %}</button>
+    </form>
+    <div class="stack">
+      <div class="card card--pad contact-list">
+        <p><i class="fa-solid fa-phone"></i> <a href="tel:{{ CONTACTS.phone|cut:' ' }}">{{ CONTACTS.phone }}</a></p>
+        <p><i class="fa-regular fa-envelope"></i> <a href="mailto:{{ CONTACTS.email }}">{{ CONTACTS.email }}</a></p>
+        <p><i class="fa-solid fa-location-dot"></i> {{ CONTACTS.address }}</p>
+        <p><i class="fa-regular fa-clock"></i> {% translate "Дш–Иш: 09:00–19:00, Ишм: 10:00–16:00" %}</p>
+        <a href="https://wa.me/{{ CONTACTS.whatsapp }}" target="_blank" rel="noopener" class="btn btn--whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+      </div>
+      <div class="map-wrap"><iframe src="https://www.google.com/maps?q=40.5274624,72.810496&z=13&output=embed" loading="lazy" title="Ош"></iframe></div>
+    </div>
+  </div>
+</section>
+{% endblock %}

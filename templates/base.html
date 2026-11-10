@@ -1,0 +1,124 @@
+{% load static i18n %}<!DOCTYPE html>
+{% get_current_language as LANG %}
+<html lang="{{ LANG }}" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{% translate "Дүйнө боюнча турлар" %}{% endblock %} — {{ SITE_NAME }}</title>
+  <meta name="description" content="{% block meta_description %}{% translate "IT Travel — Ош шаарынан дүйнө боюнча турлар: Мальдив, Дубай, Европа, Америка. Онлайн брондоо." %}{% endblock %}">
+  <script>
+    // Тема бет жүктөлгөнгө чейин коюлат (жылт этпеши үчүн)
+    try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Unbounded:wght@500;700&display=swap&subset=cyrillic-ext" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+<header class="header" id="header">
+  <div class="container header__inner">
+    <a class="logo" href="{% url 'tours:home' %}"><i class="fa-solid fa-earth-asia"></i> IT&nbsp;<span>Travel</span></a>
+
+    <nav class="nav" id="nav">
+      <a href="{% url 'tours:list' %}" class="nav__link">{% translate "Турлар" %}</a>
+      <div class="nav__dropdown">
+        <button class="nav__link" type="button" aria-haspopup="true">{% translate "Өлкөлөр" %} <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="nav__menu">
+          {% for c in nav_countries %}<a href="{% url 'tours:country' c.slug %}">{{ c.name }}</a>{% endfor %}
+        </div>
+      </div>
+      <a href="{% url 'tours:articles' %}" class="nav__link">{% translate "Блог" %}</a>
+      <a href="{% url 'tours:faq' %}" class="nav__link">FAQ</a>
+      <a href="{% url 'tours:about' %}" class="nav__link">{% translate "Биз жөнүндө" %}</a>
+      <a href="{% url 'tours:contact' %}" class="nav__link">{% translate "Байланыш" %}</a>
+      <div class="nav__auth">
+        {% if user.is_authenticated %}
+          <a href="{% url 'accounts:cabinet' %}" class="btn btn--ghost btn--sm"><i class="fa-regular fa-user"></i> {% translate "Кабинет" %}</a>
+          {% if user.is_staff %}<a href="{% url 'admin:index' %}" class="btn btn--ghost btn--sm"><i class="fa-solid fa-gear"></i></a>{% endif %}
+          <form action="{% url 'accounts:logout' %}" method="post" class="inline">{% csrf_token %}
+            <button class="btn btn--ghost btn--sm" title="{% translate 'Чыгуу' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+          </form>
+        {% else %}
+          <a href="{% url 'accounts:login' %}" class="btn btn--ghost btn--sm">{% translate "Кирүү" %}</a>
+          <a href="{% url 'accounts:signup' %}" class="btn btn--primary btn--sm">{% translate "Катталуу" %}</a>
+        {% endif %}
+      </div>
+    </nav>
+
+    <div class="header__tools">
+      <form action="{% url 'set_language' %}" method="post" class="lang">{% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        {% get_available_languages as LANGUAGES %}
+        {% for code, name in LANGUAGES %}
+          <button name="language" value="{{ code }}" class="lang__btn{% if code == LANG %} is-active{% endif %}" title="{{ name }}">{{ code|upper }}</button>
+        {% endfor %}
+      </form>
+      <button class="icon-btn" id="theme-toggle" type="button" aria-label="{% translate 'Теманы алмаштыруу' %}"><i class="fa-solid fa-moon"></i></button>
+      <button class="icon-btn burger" id="burger" type="button" aria-label="{% translate 'Меню' %}"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </div>
+</header>
+
+{% if messages %}
+<div class="toasts">
+  {% for message in messages %}
+    <div class="toast toast--{{ message.tags }}"><span>{{ message }}</span><button type="button" class="toast__close">&times;</button></div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<main class="page">{% block content %}{% endblock %}</main>
+
+<footer class="footer">
+  <div class="container footer__grid">
+    <div>
+      <a class="logo logo--light" href="{% url 'tours:home' %}"><i class="fa-solid fa-earth-asia"></i> IT&nbsp;<span>Travel</span></a>
+      <p class="footer__text">{% translate "Үйдөн алыстап, дүйнөнү көргүсү келгендер үчүн турлар. Биз визадан тартып мейманканага чейин баарын уюштурабыз." %}</p>
+      <div class="socials">
+        <a href="https://wa.me/{{ CONTACTS.whatsapp }}" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://t.me/" target="_blank" rel="noopener" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+        <a href="https://www.tiktok.com/" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+    <div>
+      <h4>{% translate "Багыттар" %}</h4>
+      <ul>{% for c in nav_countries %}<li><a href="{% url 'tours:country' c.slug %}">{{ c.name }}</a></li>{% endfor %}</ul>
+    </div>
+    <div>
+      <h4>{% translate "Тур түрлөрү" %}</h4>
+      <ul>
+        <li><a href="{% url 'tours:list' %}?tour_type=excursion">{% translate "Экскурсиялык тур" %}</a></li>
+        <li><a href="{% url 'tours:list' %}?tour_type=beach">{% translate "Пляж эс алуусу" %}</a></li>
+        <li><a href="{% url 'tours:list' %}?tour_type=ski">{% translate "Тоо лыжа туру" %}</a></li>
+        <li><a href="{% url 'tours:list' %}?tour_type=city">{% translate "Шаар туру" %}</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>{% translate "Байланыш" %}</h4>
+      <ul class="contacts">
+        <li><i class="fa-solid fa-phone"></i> <a href="tel:{{ CONTACTS.phone|cut:' ' }}">{{ CONTACTS.phone }}</a></li>
+        <li><i class="fa-regular fa-envelope"></i> <a href="mailto:{{ CONTACTS.email }}">{{ CONTACTS.email }}</a></li>
+        <li><i class="fa-solid fa-location-dot"></i> {{ CONTACTS.address }}</li>
+      </ul>
+      <form action="{% url 'tours:subscribe' %}" method="post" class="subscribe">{% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        <label for="sub-email">{% translate "Акцияларга жазылуу" %}</label>
+        <div class="subscribe__row">
+          <input type="email" name="email" id="sub-email" placeholder="email@example.com" required>
+          <button class="btn btn--primary btn--sm" aria-label="{% translate 'Жазылуу' %}"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="container footer__bottom">© {% now "Y" %} {{ SITE_NAME }}. {% translate "Бардык укуктар корголгон." %}</div>
+</footer>
+
+<script>window.PLACEHOLDER_IMG = "{% static 'img/placeholder.svg' %}";</script>
+<script src="{% static 'js/main.js' %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>
