@@ -90,7 +90,7 @@ div.breadcrumbs a { font-weight: 500; }
 /* --- Модулдар / карточкалар --- */
 #content { padding: 24px 32px; }
 #content h1 { font: 600 1.45rem "Unbounded", var(--font-family-primary); color: var(--body-fg); margin-bottom: 18px; }
-.module, #changelist, .inline-group, fieldset.module {
+.module:not(#changelist), .inline-group, fieldset.module {
   background: var(--itt-card); border: 1px solid var(--hairline-color); border-radius: 14px;
   box-shadow: var(--itt-shadow); overflow: hidden;
 }
@@ -118,6 +118,7 @@ select { padding: 6px 8px; min-height: 34px; }
 .submit-row { border-radius: 14px; background: var(--itt-card); border: 1px solid var(--hairline-color); padding: 14px; box-shadow: var(--itt-shadow); }
 .submit-row a.deletelink { border-radius: 999px; padding: 9px 18px; }
 .object-tools a:link, .object-tools a:visited { border-radius: 999px; padding: 7px 14px; font-weight: 600; text-transform: none; letter-spacing: 0; font-size: .82rem; }
+.object-tools a.addlink, .object-tools a.viewsitelink { padding-right: 30px; background-position: right 11px center; }
 
 /* --- Тизме (changelist) --- */
 #changelist .actions { padding: 10px 14px; background: var(--darkened-bg); border-bottom: 1px solid var(--hairline-color); }
@@ -188,4 +189,32 @@ ul.messagelist li { border-radius: 10px; margin: 0 0 8px; }
 @media (max-width: 1024px) {
   .itt-panels { grid-template-columns: 1fr; }
   #content, #header, div.breadcrumbs { padding-left: 16px; padding-right: 16px; }
+}
+
+
+/* ======= Оңдоолор: тизме барагынын жайгашуусу (Django 5.2 жана 6.0) ======= */
+#changelist { background: transparent; border: 0; box-shadow: none; overflow: visible; gap: 20px; }
+#changelist .changelist-form-container { display: flex; flex-direction: column; flex: 1 1 auto; min-width: 0; gap: 12px; }
+#changelist .changelist-form-container:has(> #changelist-filter) { flex-direction: row; align-items: flex-start; }
+#changelist .changelist-form-container > div { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+#changelist-filter { flex: 0 0 250px; order: 2; margin: 0 !important; align-self: flex-start; }
+#toolbar { background: var(--itt-card); border: 1px solid var(--hairline-color); border-radius: 14px; box-shadow: var(--itt-shadow); padding: 12px 14px; margin: 0; }
+#toolbar form #searchbar { min-width: 260px; }
+#changelist div.xfull, #changelist .toplinks { background: var(--itt-card); border: 1px solid var(--hairline-color); border-radius: 14px; margin: 0; padding: 8px 14px; }
+#changelist .toplinks li { display: inline-block; margin-right: 10px; }
+#changelist-form { background: var(--itt-card); border: 1px solid var(--hairline-color); border-radius: 14px; box-shadow: var(--itt-shadow); overflow: hidden; }
+#changelist-form .results { border: 0; }
+#changelist .paginator, #changelist .changelist-footer { background: transparent; }
+
+/* Сол менюдагы жана башкы беттеги бөлүмдөрдүн аттары көрүнсүн (мурун ак фондо ак болчу) */
+.module caption a.section:link, .module caption a.section:visited,
+.module h2 a.section:link, .module h2 a.section:visited,
+#nav-sidebar .module caption a { color: var(--body-quiet-color); }
+.module caption a.section:hover, .module h2 a.section:hover { color: var(--primary); }
+#nav-sidebar .current-app .section:link, #nav-sidebar .current-app .section:visited { color: var(--primary); }
+
+@media (max-width: 1024px) {
+  #changelist, #changelist .changelist-form-container:has(> #changelist-filter) { flex-direction: column; align-items: stretch; }
+  #changelist-filter { flex-basis: auto; width: 100%; order: 2; }
+  #toolbar form #searchbar { min-width: 0; }
 }
