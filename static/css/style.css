@@ -521,3 +521,17 @@ img.is-fallback { object-fit: cover; }
   .progress li { font-size: .72rem; }
   .booking-card__cover { aspect-ratio: 16/10; }
 }
+
+/* ---------- Google менен кирүү ---------- */
+.auth-card { text-align: center; padding: 2.2rem 2rem; }
+.auth-card h1 { font-size: 1.6rem; margin-bottom: .4rem; }
+.auth-card form { text-align: left; }
+.auth-card__icon { width: 64px; height: 64px; margin: 0 auto 1rem; border-radius: 18px; display: grid; place-items: center; font-size: 1.7rem; background: var(--brand-50); color: var(--brand); }
+.btn--google { background: #fff; color: #1f1f1f; border: 1.5px solid #dadce0; font-weight: 600; margin-top: 1rem; }
+.btn--google:hover { background: #f8f9fa; color: #1f1f1f; box-shadow: 0 4px 14px rgba(0,0,0,.12); transform: translateY(-1px); }
+.btn--google i { color: #4285f4; font-size: 1.15rem; }
+.auth-note { margin: 1.2rem 0 0; font-size: .82rem; color: var(--muted); }
+.auth-note i { color: var(--success); margin-right: .3rem; }
+.auth-perks { list-style: none; padding: 0; margin: 1.4rem 0 0; display: grid; gap: .55rem; text-align: left; }
+.auth-perks li { display: flex; gap: .7rem; align-items: center; padding: .65rem .9rem; border-radius: var(--radius-sm); background: var(--surface-2); font-size: .92rem; }
+.auth-perks i { color: var(--brand); width: 1.1rem; text-align: center; }

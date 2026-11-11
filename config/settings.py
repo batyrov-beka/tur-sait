@@ -10,6 +10,21 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+def load_env_file(path):
+    """.env файлынан өзгөрмөлөрдү окуйт (KEY=VALUE). Кошумча пакеттин кереги жок."""
+    if not path.exists():
+        return
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+
+
+load_env_file(BASE_DIR / ".env")
+
+
 def env_bool(name, default=False):
     return os.environ.get(name, str(default)).lower() in ("1", "true", "yes", "on")
 
@@ -37,6 +52,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
+    # Google менен кирүү
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
     # биздин тиркемелер
     "tours.apps.ToursConfig",
     "bookings.apps.BookingsConfig",
@@ -53,6 +73,12 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
+]
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",  # админка үчүн логин/сырсөз
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -139,6 +165,27 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "accounts:cabinet"
 LOGOUT_REDIRECT_URL = "tours:home"
+
+# --- Google менен кирүү (django-allauth) -----------------------------------
+# Google Cloud Console'дон OAuth Client ID алып, .env файлына жазыңыз (README караңыз).
+GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "")
+GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", "")
+GOOGLE_LOGIN_ENABLED = bool(GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET)
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "APPS": [{"client_id": GOOGLE_CLIENT_ID, "secret": GOOGLE_CLIENT_SECRET, "key": ""}],
+        "SCOPE": ["profile", "email"],
+        "AUTH_PARAMS": {"access_type": "online", "prompt": "select_account"},
+    }
+}
+SOCIALACCOUNT_LOGIN_ON_GET = True            # баскычты басканда дароо Google'га өтөт
+SOCIALACCOUNT_AUTO_SIGNUP = True             # биринчи киргенде аккаунт өзү түзүлөт
+SOCIALACCOUNT_EMAIL_AUTHENTICATION = True    # ошол email менен катталган колдонуучуга кошулат
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+SOCIALACCOUNT_STORE_TOKENS = False
+ACCOUNT_EMAIL_VERIFICATION = "none"          # Google email'ди өзү текшерген
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https" if not DEBUG else "http"
 
 # --- Почта -----------------------------------------------------------------
 # Иштеп чыгууда каттар терминалга чыгат. Чыныгы почта үчүн EMAIL_* коюңуз.

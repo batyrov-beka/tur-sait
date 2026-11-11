@@ -3,11 +3,25 @@
 {% block title %}{% translate "Катталуу" %}{% endblock %}
 {% block content %}
 <section class="section"><div class="container auth">
-  <form method="post" class="card card--pad">{% csrf_token %}
+  <div class="card card--pad auth-card">
+    <div class="auth-card__icon"><i class="fa-solid fa-user-plus"></i></div>
     <h1>{% translate "Катталуу" %}</h1>
-    {% for field in form %}{% include "includes/field.html" %}{% endfor %}
-    <button class="btn btn--primary btn--block">{% translate "Катталуу" %}</button>
-    <p class="center muted">{% translate "Аккаунтуңуз барбы?" %} <a href="{% url 'accounts:login' %}">{% translate "Кирүү" %}</a></p>
-  </form>
+    {% if GOOGLE_LOGIN_ENABLED %}
+      <p class="muted">{% translate "Форма толтуруунун кереги жок — Gmail аккаунтуңузду тандаңыз, аты-жөнүңүз жана email'иңиз өзү кошулат." %}</p>
+      {% include "includes/google_button.html" with next_url=request.GET.next %}
+      <ul class="auth-perks">
+        <li><i class="fa-solid fa-bolt"></i> {% translate "5 секундда каттоо" %}</li>
+        <li><i class="fa-solid fa-key"></i> {% translate "Жаңы сырсөз ойлоп табуунун кереги жок" %}</li>
+        <li><i class="fa-solid fa-heart"></i> {% translate "Брондоолор жана сакталган турлар кабинетте" %}</li>
+      </ul>
+      <p class="auth-note"><i class="fa-solid fa-lock"></i> {% translate "Сырсөзүңүздү Google'дун өз барагында тересиз — биздин сайт аны көрбөйт жана сактабайт." %}</p>
+    {% else %}
+      <div class="alert alert--danger">{% translate "Google менен кирүү азырынча жөндөлө элек (README: GOOGLE_CLIENT_ID)." %}</div>
+      <form method="post">{% csrf_token %}
+        {% for field in form %}{% include "includes/field.html" %}{% endfor %}
+        <button class="btn btn--primary btn--block">{% translate "Катталуу" %}</button>
+      </form>
+    {% endif %}
+  </div>
 </div></section>
 {% endblock %}

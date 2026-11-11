@@ -14,6 +14,7 @@
 | Өлкө барагы | Сүрөттөмө, Google карта (API ачкычсыз), фотогалерея, мейманканалар, турлар |
 | Тур барагы | Программа, баага эмне кирет, мейманкана тандоо, **брондоо формасы бааны дароо эсептейт**, пикирлер (1–5 жылдыз) |
 | Брондоо | Текшерүү (күн, телефон, киши саны), менеджерге email, статус: Жаңы → Ырасталды → Төлөндү |
+| Google менен кирүү | Каттоо жана кирүү бир баскыч менен — Gmail аркылуу (django-allauth) |
 | Кабинет `/accounts/cabinet/` | Менин брондоолорум, жокко чыгаруу, пикирлерим, профиль, сырсөз алмаштыруу |
 | Байланыш | Форма — билдирүүлөр админкага сакталат, WhatsApp шилтемеси |
 | Админка `/admin/` | Өлкө/тур/мейманкана/сүрөт кошуу, бааларды тизмеден эле өзгөртүү, брондоолордун статусу, пикирлерди модерациялоо |
@@ -57,6 +58,32 @@ python manage.py makemigrations tours bookings
 python manage.py migrate
 python manage.py seed_demo      # 12 өлкө, 18 тур, макалалар, FAQ, промокод
 ```
+
+## Google менен кирүү / катталуу
+
+Колдонуучу "Google менен улантуу" баскычын басат → Google'дун барагында Gmail'ин тандап, сырсөзүн терет →
+сайтка кирет (биринчи жолу болсо аккаунт өзү түзүлөт). Сайт Gmail сырсөзүн эч качан көрбөйт.
+
+1. https://console.cloud.google.com → жаңы долбоор түзүңүз.
+2. **APIs & Services → OAuth consent screen**: User type — *External*, тиркеменин аты (IT Travel), email. Сактаңыз.
+   *Audience* бөлүмүндө тесттик колдонуучуларга өз Gmail'иңизди кошуңуз (же *Publish app*).
+3. **APIs & Services → Credentials → Create credentials → OAuth client ID** → *Web application*.
+   **Authorized redirect URIs** бөлүмүнө:
+   ```
+   http://127.0.0.1:8000/auth/google/login/callback/
+   http://localhost:8000/auth/google/login/callback/
+   ```
+   (серверде: `https://сиздин-домен/auth/google/login/callback/`)
+4. Чыккан **Client ID** жана **Client secret**'ти долбоордун түпкү папкасындагы `.env` файлына жазыңыз
+   (`manage.py` жанында; Git'ке кирбейт):
+   ```
+   GOOGLE_CLIENT_ID=....apps.googleusercontent.com
+   GOOGLE_CLIENT_SECRET=GOCSPX-....
+   ```
+5. `pip install -r requirements.txt`, `python manage.py migrate`, `python manage.py runserver`.
+
+Ачкыч коюлбаса, кирүү барагы кадимки логин/сырсөз формасын көрсөтөт. Админка (`/admin/`) дайыма
+superuser'дин логини менен иштейт.
 
 ## Telegram билдирүүлөрү
 

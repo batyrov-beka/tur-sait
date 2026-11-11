@@ -13,6 +13,7 @@ def site_info(request):
     return {
         "fav_ids": fav_ids,
         "SITE_NAME": settings.SITE_NAME,
+        "GOOGLE_LOGIN_ENABLED": settings.GOOGLE_LOGIN_ENABLED,
         "CONTACTS": contacts,
         "nav_countries": Country.objects.filter(is_active=True).only("slug", "name_ky", "name_ru"),
     }

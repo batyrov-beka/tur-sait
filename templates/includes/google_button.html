@@ -1,0 +1,4 @@
+{% load i18n socialaccount %}
+<a href="{% provider_login_url 'google' next=next_url|default:'' %}" class="btn btn--google btn--block btn--lg">
+  <i class="fa-brands fa-google"></i> {% translate "Google менен улантуу" %}
+</a>

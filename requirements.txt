@@ -1,5 +1,6 @@
 Django>=5.1,<6.0
 Pillow>=10.0
 whitenoise>=6.6
+django-allauth[socialaccount]>=65.0
 gunicorn>=22.0; sys_platform != "win32"
 # psycopg[binary]>=3.1   # PostgreSQL колдонсоңуз ачыңыз

@@ -10,6 +10,7 @@ admin.site.index_title = "Башкаруу панели"
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("i18n/", include("django.conf.urls.i18n")),  # тил которуу (set_language)
+    path("auth/", include("allauth.urls")),  # Google: /auth/google/login/ жана /callback/
     path("accounts/", include("accounts.urls")),
     path("bookings/", include("bookings.urls")),
     path("", include("tours.urls")),

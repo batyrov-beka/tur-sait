@@ -3,13 +3,23 @@
 {% block title %}{% translate "Кирүү" %}{% endblock %}
 {% block content %}
 <section class="section"><div class="container auth">
-  <form method="post" class="card card--pad">{% csrf_token %}
+  <div class="card card--pad auth-card">
+    <div class="auth-card__icon"><i class="fa-solid fa-earth-asia"></i></div>
     <h1>{% translate "Кирүү" %}</h1>
-    {% if form.non_field_errors %}<div class="alert alert--danger">{% translate "Логин же сырсөз туура эмес." %}</div>{% endif %}
-    {% for field in form %}{% include "includes/field.html" %}{% endfor %}
-    <input type="hidden" name="next" value="{{ next }}">
-    <button class="btn btn--primary btn--block">{% translate "Кирүү" %}</button>
-    <p class="center muted">{% translate "Аккаунтуңуз жокпу?" %} <a href="{% url 'accounts:signup' %}{% if next %}?next={{ next|urlencode }}{% endif %}">{% translate "Катталуу" %}</a></p>
-  </form>
+    <p class="muted">{% translate "Gmail аккаунтуңуз менен бир басуу аркылуу кириңиз. Аккаунт жок болсо, ал өзү түзүлөт." %}</p>
+
+    {% if GOOGLE_LOGIN_ENABLED %}
+      {% include "includes/google_button.html" with next_url=next %}
+      <p class="auth-note"><i class="fa-solid fa-lock"></i> {% translate "Сырсөзүңүздү Google'дун өз барагында тересиз — биздин сайт аны көрбөйт жана сактабайт." %}</p>
+    {% else %}
+      <div class="alert alert--danger">{% translate "Google менен кирүү азырынча жөндөлө элек (README: GOOGLE_CLIENT_ID)." %}</div>
+      <form method="post">{% csrf_token %}
+        {% if form.non_field_errors %}<div class="alert alert--danger">{% translate "Логин же сырсөз туура эмес." %}</div>{% endif %}
+        {% for field in form %}{% include "includes/field.html" %}{% endfor %}
+        <input type="hidden" name="next" value="{{ next }}">
+        <button class="btn btn--primary btn--block">{% translate "Кирүү" %}</button>
+      </form>
+    {% endif %}
+  </div>
 </div></section>
 {% endblock %}
