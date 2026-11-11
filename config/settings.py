@@ -209,6 +209,17 @@ SITE_CONTACTS = {
 # Жаңы брондоо келгенде кат жөнөтүлүүчү дарек
 BOOKING_NOTIFY_EMAIL = os.environ.get("BOOKING_NOTIFY_EMAIL", SITE_CONTACTS["email"])
 
+# --- Онлайн төлөм -----------------------------------------------------------
+# test — чыныгы акча алынбайт (демо). freedompay — Freedom Pay Кыргызстан.
+PAYMENT_PROVIDER = os.environ.get("PAYMENT_PROVIDER", "test")
+PAYMENT_REQUIRE_CONFIRMATION = env_bool("PAYMENT_REQUIRE_CONFIRMATION", True)  # менеджер ырастагандан кийин
+FREEDOMPAY_MERCHANT_ID = os.environ.get("FREEDOMPAY_MERCHANT_ID", "")
+FREEDOMPAY_SECRET_KEY = os.environ.get("FREEDOMPAY_SECRET_KEY", "")
+FREEDOMPAY_API_URL = os.environ.get("FREEDOMPAY_API_URL", "https://api.freedompay.kg")
+FREEDOMPAY_CURRENCY = os.environ.get("FREEDOMPAY_CURRENCY", "KGS")
+FREEDOMPAY_TESTING_MODE = env_bool("FREEDOMPAY_TESTING_MODE", True)
+SITE_URL = os.environ.get("SITE_URL", "")  # мис. https://ittravel.kg — төлөм системасы кайра чакыруучу дарек
+
 # Telegram боту аркылуу жаңы брондоо / билдирүү жөнүндө кабар (милдеттүү эмес)
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")

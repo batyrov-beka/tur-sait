@@ -66,7 +66,16 @@
           {% endif %}
         </ul>
         <div class="price-total"><span>{% translate "Жалпы" %}</span><strong>{{ booking.total_price|intcomma }} {% translate "сом" %}</strong></div>
-        <p class="muted small">{% translate "Азыр төлөөнүн кереги жок — менеджер чалып, баарын тактайт." %}</p>
+        {% if booking.status == "paid" or booking.status == "completed" %}
+          <div class="paid-box"><i class="fa-solid fa-circle-check"></i> {% translate "Төлөнгөн. Рахмат!" %}</div>
+        {% elif booking.can_pay %}
+          <form method="post" action="{% url 'bookings:pay' booking.pk %}">{% csrf_token %}
+            <button class="btn btn--primary btn--block btn--lg"><i class="fa-solid fa-credit-card"></i> {% translate "Онлайн төлөө" %}</button>
+          </form>
+          <p class="pay-methods"><i class="fa-regular fa-credit-card"></i> {% translate "Карта" %} · <i class="fa-solid fa-mobile-screen"></i> MBank · <i class="fa-solid fa-qrcode"></i> ELQR</p>
+        {% elif booking.status == "new" %}
+          <p class="muted small"><i class="fa-regular fa-clock"></i> {% translate "Менеджер арызды ырастагандан кийин бул жерде онлайн төлөсөңүз болот." %}</p>
+        {% endif %}
 
         <a href="https://wa.me/{{ CONTACTS.whatsapp }}?text={% translate 'Арыз' %}%20%23{{ booking.pk }}" target="_blank" rel="noopener" class="btn btn--whatsapp btn--block"><i class="fab fa-whatsapp"></i> {% translate "Менеджерге жазуу" %}</a>
         {% if booking.can_cancel %}
@@ -74,6 +83,14 @@
           {% csrf_token %}<button class="btn btn--danger-ghost btn--block">{% translate "Жокко чыгаруу" %}</button>
         </form>
         {% endif %}
+        {% with pays=booking.payments.all %}{% if pays %}
+        <div class="pay-history">
+          <h4>{% translate "Төлөм аракеттери" %}</h4>
+          {% for p in pays %}
+            <div class="pay-history__row"><span>{{ p.created_at|date:"d.m H:i" }} · {{ p.amount|intcomma }}</span><span class="pay-status pay-status--{{ p.status }}">{{ p.get_status_display }}</span></div>
+          {% endfor %}
+        </div>
+        {% endif %}{% endwith %}
       </aside>
     </div>
   </div>

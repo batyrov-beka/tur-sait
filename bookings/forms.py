@@ -8,6 +8,9 @@ from .models import Booking, PromoCode
 
 
 class BookingForm(forms.ModelForm):
+    agree = forms.BooleanField(
+        label=_("Оферта жана купуялык саясаты менен макулмун"), required=True,
+        error_messages={"required": _("Улантуу үчүн шарттар менен макул болуңуз.")})
     promo_code = forms.CharField(label=_("Промокод"), required=False, max_length=30,
                                  widget=forms.TextInput(attrs={"placeholder": "SUMMER10", "autocomplete": "off"}))
 

@@ -535,3 +535,29 @@ img.is-fallback { object-fit: cover; }
 .auth-perks { list-style: none; padding: 0; margin: 1.4rem 0 0; display: grid; gap: .55rem; text-align: left; }
 .auth-perks li { display: flex; gap: .7rem; align-items: center; padding: .65rem .9rem; border-radius: var(--radius-sm); background: var(--surface-2); font-size: .92rem; }
 .auth-perks i { color: var(--brand); width: 1.1rem; text-align: center; }
+
+/* ---------- Онлайн төлөм ---------- */
+.paid-box { display: flex; align-items: center; gap: .6rem; padding: .9rem 1rem; border-radius: var(--radius-sm); background: color-mix(in srgb, var(--success) 12%, transparent); color: var(--success); font-weight: 600; margin-bottom: .6rem; }
+.pay-methods { text-align: center; font-size: .8rem; color: var(--muted); margin: .5rem 0 .2rem; }
+.pay-methods i { margin-right: .15rem; }
+.pay-history { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px dashed var(--border); }
+.pay-history h4 { font-size: .85rem; margin-bottom: .5rem; }
+.pay-history__row { display: flex; justify-content: space-between; font-size: .82rem; padding: .3rem 0; }
+.pay-status { font-weight: 600; }
+.pay-status--paid { color: var(--success); } .pay-status--failed { color: var(--danger); } .pay-status--pending { color: var(--muted); }
+.checkout { text-align: center; }
+.checkout h1 { font-size: 1.3rem; }
+.test-banner { display: inline-flex; gap: .5rem; align-items: center; padding: .45rem .9rem; border-radius: 999px; background: #fff4d6; color: #8a5a00; font-size: .78rem; font-weight: 700; letter-spacing: .03em; margin-bottom: 1rem; }
+.checkout__amount { font: 700 2.2rem var(--font-head); color: var(--brand); margin: .5rem 0 1rem; }
+.checkout__amount small { font-size: 1rem; color: var(--muted); }
+.checkout__actions { margin-top: 1rem; }
+
+/* ---------- Оферта / макулдук ---------- */
+.agree { display: flex; gap: .6rem; align-items: flex-start; font-size: .85rem; margin: .4rem 0 .2rem; cursor: pointer; }
+.agree input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--brand); flex: none; }
+.agree--error span { color: var(--danger); }
+.footer__bottom { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.footer__legal a { color: #b6c6cf; }
+.legal h2 { font-size: 1.15rem; margin-top: 1.8rem; }
+.legal ul { padding-left: 1.2rem; }
+.legal li { margin-bottom: .4rem; }

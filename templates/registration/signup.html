@@ -14,6 +14,7 @@
         <li><i class="fa-solid fa-key"></i> {% translate "Жаңы сырсөз ойлоп табуунун кереги жок" %}</li>
         <li><i class="fa-solid fa-heart"></i> {% translate "Брондоолор жана сакталган турлар кабинетте" %}</li>
       </ul>
+      <p class="auth-note">{% translate "Улантуу менен сиз" %} <a href="{% url 'tours:terms' %}">{% translate "офертаны" %}</a> {% translate "жана" %} <a href="{% url 'tours:privacy' %}">{% translate "купуялык саясатын" %}</a> {% translate "кабыл аласыз." %}</p>
       <p class="auth-note"><i class="fa-solid fa-lock"></i> {% translate "Сырсөзүңүздү Google'дун өз барагында тересиз — биздин сайт аны көрбөйт жана сактабайт." %}</p>
     {% else %}
       <div class="alert alert--danger">{% translate "Google менен кирүү азырынча жөндөлө элек (README: GOOGLE_CLIENT_ID)." %}</div>

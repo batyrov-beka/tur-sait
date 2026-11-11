@@ -11,7 +11,7 @@ from django.views.decorators.http import require_POST
 from bookings.forms import BookingForm
 
 from .forms import ContactForm, ReviewForm, SubscribeForm, TourFilterForm
-from .models import FAQ, Article, Country, Favorite, Review, Subscriber, Tour
+from .models import FAQ, Article, Country, Favorite, Review, Subscriber, Tour, current_lang
 from .notify import notify_manager
 
 
@@ -199,3 +199,15 @@ def subscribe(request):
     else:
         messages.error(request, _("Email дарегин туура жазыңыз."))
     return redirect(_safe_next(request, "/"))
+
+
+LEGAL_UPDATED = "11.11.2026"
+
+
+def legal_page(request, page):
+    titles = {"terms": _("Коммерциялык сунуш (оферта)"), "privacy": _("Купуялык саясаты")}
+    return render(request, "tours/legal_page.html", {
+        "page_title": titles[page],
+        "body_template": f"tours/legal/{page}_{current_lang()}.html",
+        "updated": LEGAL_UPDATED,
+    })

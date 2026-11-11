@@ -115,7 +115,10 @@
       </form>
     </div>
   </div>
-  <div class="container footer__bottom">© {% now "Y" %} {{ SITE_NAME }}. {% translate "Бардык укуктар корголгон." %}</div>
+  <div class="container footer__bottom">
+    <span>© {% now "Y" %} {{ SITE_NAME }}. {% translate "Бардык укуктар корголгон." %}</span>
+    <span class="footer__legal"><a href="{% url 'tours:terms' %}">{% translate "Оферта" %}</a> · <a href="{% url 'tours:privacy' %}">{% translate "Купуялык саясаты" %}</a></span>
+  </div>
 </footer>
 
 <script>window.PLACEHOLDER_IMG = "{% static 'img/placeholder.svg' %}";</script>

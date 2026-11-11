@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load i18n humanize %}
+{% block title %}{% translate "Тест төлөм" %}{% endblock %}
+{% block content %}
+<section class="section"><div class="container auth">
+  <div class="card card--pad checkout">
+    <div class="test-banner"><i class="fa-solid fa-flask"></i> {% translate "ТЕСТ РЕЖИМИ — чыныгы акча алынбайт" %}</div>
+    <p class="muted">IT Travel · {% translate "Арыз" %} #{{ payment.booking_id }}</p>
+    <h1>{{ payment.booking.tour.title }}</h1>
+    <div class="checkout__amount">{{ payment.amount|intcomma }} <small>{% translate "сом" %}</small></div>
+    <p class="muted small">{% translate "Бул барак Freedom Pay туташканга чейин төлөм процессин көрсөтүү үчүн. Жыйынтыкты тандаңыз:" %}</p>
+    <form method="post" class="checkout__actions">{% csrf_token %}
+      <button name="result" value="success" class="btn btn--primary btn--lg btn--block"><i class="fa-solid fa-check"></i> {% translate "Төлөм ийгиликтүү" %}</button>
+      <button name="result" value="fail" class="btn btn--danger-ghost btn--block"><i class="fa-solid fa-xmark"></i> {% translate "Төлөм ийгиликсиз" %}</button>
+    </form>
+    <a href="{% url 'bookings:detail' payment.booking_id %}" class="btn btn--ghost btn--block">{% translate "Артка" %}</a>
+  </div>
+</div></section>
+{% endblock %}

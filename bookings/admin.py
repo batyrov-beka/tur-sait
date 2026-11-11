@@ -1,10 +1,22 @@
 from django.contrib import admin
 
-from .models import Booking, PromoCode
+from .models import Booking, Payment, PromoCode
+
+
+class PaymentInline(admin.TabularInline):
+    model = Payment
+    extra = 0
+    can_delete = False
+    fields = ("created_at", "provider", "amount", "status", "external_id", "paid_at")
+    readonly_fields = fields
+
+    def has_add_permission(self, request, obj=None):
+        return False
 
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
+    inlines = [PaymentInline]
     list_display = ("id", "full_name", "phone", "tour", "travel_date", "people_display", "total_price",
                     "status", "created_at")
     list_display_links = ("id", "full_name")
@@ -55,3 +67,11 @@ class PromoCodeAdmin(admin.ModelAdmin):
     @admin.display(description="Азыр иштейби", boolean=True)
     def valid_now(self, obj):
         return obj.is_valid
+
+
+@admin.register(Payment)
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = ("id", "booking", "provider", "amount", "status", "external_id", "created_at", "paid_at")
+    list_filter = ("status", "provider", "created_at")
+    search_fields = ("external_id", "booking__full_name", "booking__phone")
+    readonly_fields = ("booking", "provider", "amount", "external_id", "payload", "created_at", "paid_at")

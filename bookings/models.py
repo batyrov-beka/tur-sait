@@ -141,6 +141,16 @@ class Booking(models.Model):
         return self.status in self.CANCELLABLE
 
     @property
+    def can_pay(self):
+        """Онлайн төлөөгө болобу: менеджер ырастагандан кийин (же жөндөөгө жараша — дароо)."""
+        from django.conf import settings
+
+        allowed = [self.STATUS_CONFIRMED]
+        if not getattr(settings, "PAYMENT_REQUIRE_CONFIRMATION", True):
+            allowed.append(self.STATUS_NEW)
+        return self.status in allowed and self.total_price > 0
+
+    @property
     def status_css(self):
         return {
             self.STATUS_NEW: "info",
@@ -149,3 +159,63 @@ class Booking(models.Model):
             self.STATUS_CANCELLED: "danger",
             self.STATUS_COMPLETED: "muted",
         }.get(self.status, "info")
+
+
+class Payment(models.Model):
+    """Онлайн төлөм аракети. Бир брондоого бир нече аракет болушу мүмкүн."""
+
+    STATUS_PENDING = "pending"
+    STATUS_PAID = "paid"
+    STATUS_FAILED = "failed"
+    STATUS_CHOICES = [
+        (STATUS_PENDING, _("Күтүүдө")),
+        (STATUS_PAID, _("Төлөндү")),
+        (STATUS_FAILED, _("Ийгиликсиз")),
+    ]
+
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name="payments", verbose_name="Брондоо")
+    provider = models.CharField("Провайдер", max_length=30)
+    amount = models.DecimalField("Сумма (сом)", max_digits=12, decimal_places=0)
+    status = models.CharField("Статус", max_length=20, choices=STATUS_CHOICES, default=STATUS_PENDING)
+    external_id = models.CharField("Төлөм системасындагы ID", max_length=100, blank=True)
+    payload = models.JSONField("Төлөм системасынын жообу", default=dict, blank=True)
+    created_at = models.DateTimeField("Түзүлгөн", auto_now_add=True)
+    paid_at = models.DateTimeField("Төлөнгөн убакыт", null=True, blank=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = "Төлөм"
+        verbose_name_plural = "Төлөмдөр"
+
+    def __str__(self):
+        return f"Төлөм #{self.pk} — брондоо #{self.booking_id} ({self.get_status_display()})"
+
+    @property
+    def order_id(self):
+        """Төлөм системасына жиберилүүчү уникалдуу номер."""
+        return f"ITT-{self.booking_id}-{self.pk}"
+
+    def mark_paid(self, payload=None):
+        """Төлөм ийгиликтүү: брондоо 'Төлөндү' болот. Кайра чакырылса эч нерсе бузулбайт."""
+        from django.utils import timezone
+
+        if self.status == self.STATUS_PAID:
+            return False
+        self.status = self.STATUS_PAID
+        self.paid_at = timezone.now()
+        if payload:
+            self.payload = payload
+        self.save(update_fields=["status", "paid_at", "payload"])
+        booking = self.booking
+        if booking.status != Booking.STATUS_PAID:
+            booking.status = Booking.STATUS_PAID
+            booking.save()
+        return True
+
+    def mark_failed(self, payload=None):
+        if self.status == self.STATUS_PAID:
+            return
+        self.status = self.STATUS_FAILED
+        if payload:
+            self.payload = payload
+        self.save(update_fields=["status", "payload"])
