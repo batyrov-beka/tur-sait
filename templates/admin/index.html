@@ -1,0 +1,6 @@
+{% extends "admin/index.html" %}
+{% load admin_dashboard %}
+{% block content %}
+  {% if not app_label %}{% admin_dashboard %}{% endif %}
+  {{ block.super }}
+{% endblock %}

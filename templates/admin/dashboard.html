@@ -1,0 +1,54 @@
+{% load humanize %}
+<div class="itt-dash">
+  <div class="itt-cards">
+    {% for c in cards %}
+      <a href="{{ c.url }}" class="itt-card itt-card--{{ c.accent }}">
+        <span class="itt-card__icon">{{ c.icon }}</span>
+        <span class="itt-card__label">{{ c.label }}</span>
+        <strong class="itt-card__value">{% if c.money %}{{ c.value|intcomma }}{% else %}{{ c.value }}{% endif %}</strong>
+        {% if c.sub %}<small>{{ c.sub }}</small>{% endif %}
+      </a>
+    {% endfor %}
+  </div>
+
+  <div class="itt-panels">
+    <section class="itt-panel">
+      <header><h2>Акыркы брондоолор</h2><a href="/admin/bookings/booking/">Баары →</a></header>
+      {% if latest %}
+      <table class="itt-table">
+        <thead><tr><th>№</th><th>Кардар</th><th>Тур</th><th>Күнү</th><th>Баасы</th><th>Статус</th></tr></thead>
+        <tbody>
+          {% for b in latest %}
+          <tr onclick="location.href='/admin/bookings/booking/{{ b.pk }}/change/'">
+            <td>#{{ b.pk }}</td>
+            <td><strong>{{ b.full_name }}</strong><br><small>{{ b.phone }}</small></td>
+            <td>{{ b.tour.title_ky }}</td>
+            <td>{{ b.travel_date|date:"d.m.Y" }}</td>
+            <td>{{ b.total_price|intcomma }}</td>
+            <td><span class="itt-badge itt-badge--{{ b.status }}">{{ b.get_status_display }}</span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}<p class="itt-empty">Азырынча брондоо жок.</p>{% endif %}
+    </section>
+
+    <section class="itt-panel">
+      <header><h2>Статустар</h2></header>
+      <ul class="itt-bars">
+        {% for s in status_counts %}
+        <li>
+          <div><span class="itt-badge itt-badge--{{ s.code }}">{{ s.label }}</span><b>{{ s.count }}</b></div>
+          <div class="itt-bar"><i class="itt-bar--{{ s.code }}" style="width: {{ s.pct }}%"></i></div>
+        </li>
+        {% endfor %}
+      </ul>
+      <div class="itt-quick">
+        <a href="/admin/tours/tour/add/">＋ Тур кошуу</a>
+        <a href="/admin/tours/country/add/">＋ Өлкө</a>
+        <a href="/admin/bookings/promocode/add/">＋ Промокод</a>
+        <a href="/admin/tours/article/add/">＋ Макала</a>
+      </div>
+    </section>
+  </div>
+</div>
