@@ -456,3 +456,68 @@ img.is-fallback { object-fit: cover; }
   .faq-wrap { grid-template-columns: 1fr; }
   .hero::after { background: rgba(6,42,51,.6); }
 }
+
+/* ---------- Брондоо барагы ---------- */
+.page-head h1 { font-size: clamp(1.5rem, 2.6vw, 2.1rem); }
+.crumbs--dark { opacity: 1; color: var(--muted); }
+.crumbs--dark a { color: var(--brand); text-decoration: none; }
+.booking-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.booking-head h1 { font-size: clamp(1.4rem, 2.4vw, 1.9rem); margin: 0 0 .2rem; }
+.booking-head p { margin: 0; font-size: .9rem; }
+.status--lg { font-size: .9rem; padding: .5em 1.1em; }
+.progress { list-style: none; padding: 0; margin: 0 0 1.8rem; display: grid; grid-template-columns: repeat(4, 1fr); counter-reset: none; }
+.progress li { position: relative; text-align: center; font-size: .85rem; color: var(--muted); padding-top: 3rem; }
+.progress li span {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 1; width: 2.4rem; height: 2.4rem; border-radius: 50%;
+  display: grid; place-items: center; background: var(--surface); border: 2px solid var(--border); color: var(--muted);
+}
+.progress li::before { content: ""; position: absolute; top: 1.15rem; left: -50%; width: 100%; height: 2px; background: var(--border); }
+.progress li:first-child::before { display: none; }
+.progress li.is-done { color: var(--text); font-weight: 600; }
+.progress li.is-done span { background: var(--brand); border-color: var(--brand); color: #fff; }
+.progress li.is-done::before { background: var(--brand); }
+.booking-grid { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 1.5rem; align-items: start; }
+.booking-card__cover { position: relative; display: block; aspect-ratio: 21/9; color: #fff; overflow: hidden; }
+.booking-card__cover img { width: 100%; height: 100%; object-fit: cover; }
+.booking-card__cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 30%, rgba(0,0,0,.7)); }
+.booking-card__cover div { position: absolute; z-index: 1; left: 1.4rem; right: 1.4rem; bottom: 1.1rem; }
+.booking-card__cover h2 { color: #fff; margin: .2rem 0 0; font-size: clamp(1.1rem, 2vw, 1.45rem); }
+.booking-card__cover:hover { color: #fff; }
+.facts { list-style: none; margin: 0; padding: 1.2rem 1.4rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; border-bottom: 1px solid var(--border); }
+.facts li { display: flex; gap: .8rem; align-items: center; }
+.facts i { width: 2.4rem; height: 2.4rem; flex: none; display: grid; place-items: center; border-radius: 10px; background: var(--brand-50); color: var(--brand); }
+.facts small { display: block; color: var(--muted); font-size: .75rem; }
+.facts strong { font-size: .95rem; }
+.contact-box { padding: 1.2rem 1.4rem; }
+.contact-box h3 { font-size: .95rem; margin-bottom: .6rem; }
+.contact-box p { margin: 0 0 .4rem; display: flex; gap: .7rem; align-items: baseline; }
+.contact-box i { color: var(--muted); width: 1rem; }
+.contact-box .comment { padding: .7rem .9rem; background: var(--surface-2); border-radius: var(--radius-sm); margin-top: .8rem; }
+.price-card h3 { font-size: 1rem; }
+.price-rows { list-style: none; padding: 0; margin: 0 0 1rem; }
+.price-rows li { display: flex; justify-content: space-between; gap: 1rem; padding: .6rem 0; border-bottom: 1px dashed var(--border); }
+.price-rows small { display: block; color: var(--muted); font-size: .78rem; }
+.price-rows__discount { color: var(--success); }
+.price-total { display: flex; justify-content: space-between; align-items: baseline; padding: .9rem 1rem; border-radius: var(--radius-sm); background: var(--brand-50); margin-bottom: .8rem; }
+.price-total strong { font: 700 1.3rem var(--font-head); color: var(--brand); }
+.small { font-size: .82rem; }
+.btn--danger-ghost { background: transparent; color: var(--danger); border-color: color-mix(in srgb, var(--danger) 40%, transparent); }
+.btn--danger-ghost:hover { background: var(--danger); color: #fff; }
+.nav__menu-all { border-top: 1px solid var(--border); margin-top: .3rem; font-weight: 600; color: var(--brand) !important; }
+
+@media (max-width: 860px) {
+  .booking-grid { grid-template-columns: 1fr; }
+  /* Мобилдик меню: экрандан узун болсо ичинде жылат */
+  .nav { max-height: calc(100vh - var(--header-h)); max-height: calc(100dvh - var(--header-h)); overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+  .nav__dropdown .nav__menu { display: none; }
+  .nav__dropdown.is-open .nav__menu { display: block; }
+  .nav__dropdown.is-open .fa-chevron-down { transform: rotate(180deg); }
+  .nav__dropdown:hover .nav__menu { transform: none; }
+  body.menu-open { overflow: hidden; }
+  .country-tile { aspect-ratio: 16/10; }
+}
+@media (max-width: 560px) {
+  .facts { grid-template-columns: 1fr; }
+  .progress li { font-size: .72rem; }
+  .booking-card__cover { aspect-ratio: 16/10; }
+}

@@ -39,7 +39,7 @@
   <div class="container">
     <div class="section__head">
       <div><p class="kicker">{% translate "Багыттар" %}</p><h2>{% translate "Популярдуу багыттар" %}</h2></div>
-      <a href="{% url 'tours:list' %}" class="link-arrow">{% translate "Бардык турлар" %} <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="{% url 'tours:countries' %}" class="link-arrow">{% translate "Бардык өлкөлөр" %} ({{ countries_total }}) <i class="fa-solid fa-arrow-right"></i></a>
     </div>
     <div class="grid grid--countries">
       {% for country in countries %}
@@ -53,6 +53,9 @@
         </a>
       {% endfor %}
     </div>
+    {% if countries_total > 6 %}
+    <div class="center mt"><a href="{% url 'tours:countries' %}" class="btn btn--ghost btn--lg">{% translate "Бардык өлкөлөрдү көрүү" %} <i class="fa-solid fa-arrow-right"></i></a></div>
+    {% endif %}
   </div>
 </section>
 

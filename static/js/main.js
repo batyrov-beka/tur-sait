@@ -42,7 +42,22 @@
   // --- Мобилдик меню ---
   const burger = document.getElementById("burger");
   const nav = document.getElementById("nav");
-  burger && burger.addEventListener("click", () => nav.classList.toggle("is-open"));
+  const setMenu = (open) => {
+    nav.classList.toggle("is-open", open);
+    document.body.classList.toggle("menu-open", open);
+    if (burger) burger.innerHTML = open ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
+  };
+  burger && burger.addEventListener("click", () => setMenu(!nav.classList.contains("is-open")));
+  nav && nav.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
+  window.addEventListener("resize", () => { if (window.innerWidth > 860) setMenu(false); });
+
+  // Мобилдик: "Өлкөлөр" басканда тизме ачылат/жабылат
+  const countriesToggle = document.getElementById("countries-toggle");
+  countriesToggle && countriesToggle.addEventListener("click", () => {
+    const dd = countriesToggle.closest(".nav__dropdown");
+    const open = dd.classList.toggle("is-open");
+    countriesToggle.setAttribute("aria-expanded", open);
+  });
 
   // --- Билдирүүлөр (toast) өзү жабылат ---
   document.querySelectorAll(".toast").forEach((toast) => {

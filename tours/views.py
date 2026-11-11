@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import F, Q
+from django.db.models import Count, F, Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.http import url_has_allowed_host_and_scheme
@@ -18,7 +18,8 @@ from .notify import notify_manager
 def home(request):
     tours = Tour.objects.active().with_rating().select_related("country")
     context = {
-        "countries": Country.objects.filter(is_active=True),
+        "countries": Country.objects.filter(is_active=True)[:6],
+        "countries_total": Country.objects.filter(is_active=True).count(),
         "hot_tours": tours.filter(is_hot=True)[:6] or tours[:6],
         "filter_form": TourFilterForm(),
         "stats": {
@@ -70,6 +71,12 @@ def tour_list(request):
         "page": page,
         "querystring": query.urlencode(),
     })
+
+
+def country_list(request):
+    countries = Country.objects.filter(is_active=True).annotate(
+        tours_total=Count("tours", filter=Q(tours__is_active=True)))
+    return render(request, "tours/country_list.html", {"countries": countries})
 
 
 def country_detail(request, slug):

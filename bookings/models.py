@@ -114,6 +114,25 @@ class Booking(models.Model):
         super().save(*args, **kwargs)
 
     @property
+    def price_breakdown(self):
+        """Баанын деталдары (брондоо барагында көрсөтүү үчүн)."""
+        tour = self.tour
+        rows = [{"label": "adults", "qty": self.adults, "unit": tour.price, "sum": tour.price * self.adults}]
+        if self.children:
+            unit = (tour.price * CHILD_PRICE_RATE).quantize(Decimal("1"))
+            rows.append({"label": "children", "qty": self.children, "unit": unit, "sum": unit * self.children})
+        if self.hotel:
+            rows.append({"label": "hotel", "qty": tour.duration_days, "unit": self.hotel.price_per_night,
+                         "sum": self.hotel.price_per_night * tour.duration_days})
+        return rows
+
+    @property
+    def status_step(self):
+        """Прогресс үчүн: 1 — жаңы, 2 — ырасталды, 3 — төлөндү, 4 — аяктады."""
+        return {self.STATUS_NEW: 1, self.STATUS_CONFIRMED: 2, self.STATUS_PAID: 3,
+                self.STATUS_COMPLETED: 4}.get(self.status, 0)
+
+    @property
     def people(self):
         return self.adults + self.children
 

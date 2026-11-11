@@ -25,9 +25,10 @@
     <nav class="nav" id="nav">
       <a href="{% url 'tours:list' %}" class="nav__link">{% translate "Турлар" %}</a>
       <div class="nav__dropdown">
-        <button class="nav__link" type="button" aria-haspopup="true">{% translate "Өлкөлөр" %} <i class="fa-solid fa-chevron-down"></i></button>
+        <button class="nav__link" type="button" aria-haspopup="true" aria-expanded="false" id="countries-toggle">{% translate "Өлкөлөр" %} <i class="fa-solid fa-chevron-down"></i></button>
         <div class="nav__menu">
           {% for c in nav_countries %}<a href="{% url 'tours:country' c.slug %}">{{ c.name }}</a>{% endfor %}
+          <a href="{% url 'tours:countries' %}" class="nav__menu-all">{% translate "Бардык өлкөлөр" %} <i class="fa-solid fa-arrow-right"></i></a>
         </div>
       </div>
       <a href="{% url 'tours:articles' %}" class="nav__link">{% translate "Блог" %}</a>

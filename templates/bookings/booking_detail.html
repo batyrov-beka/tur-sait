@@ -2,30 +2,79 @@
 {% load i18n humanize %}
 {% block title %}{% translate "Арыз" %} #{{ booking.pk }}{% endblock %}
 {% block content %}
-<section class="page-head"><div class="container"><h1>{% translate "Арыз" %} #{{ booking.pk }}</h1>
-  <span class="status status--{{ booking.status_css }}">{{ booking.get_status_display }}</span></div></section>
-<section class="section section--tight">
-  <div class="container narrow">
-    <div class="card card--pad">
-      <dl class="details">
-        <dt>{% translate "Тур" %}</dt><dd><a href="{{ booking.tour.get_absolute_url }}">{{ booking.tour.title }}</a> ({{ booking.tour.country.name }})</dd>
-        <dt>{% translate "Учуу күнү" %}</dt><dd>{{ booking.travel_date|date:"d.m.Y" }}</dd>
-        <dt>{% translate "Узактыгы" %}</dt><dd>{{ booking.tour.duration_days }} {% translate "күн" %}</dd>
-        <dt>{% translate "Кишилер" %}</dt><dd>{{ booking.adults }} {% translate "чоң" %}{% if booking.children %}, {{ booking.children }} {% translate "бала" %}{% endif %}</dd>
-        <dt>{% translate "Мейманкана" %}</dt><dd>{{ booking.hotel.name|default:"—" }}</dd>
-        <dt>{% translate "Байланыш" %}</dt><dd>{{ booking.full_name }}, {{ booking.phone }}{% if booking.email %}, {{ booking.email }}{% endif %}</dd>
-        {% if booking.comment %}<dt>{% translate "Комментарий" %}</dt><dd>{{ booking.comment }}</dd>{% endif %}
-        {% if booking.promo %}<dt>{% translate "Промокод" %}</dt><dd>{{ booking.promo.code }} (−{{ booking.discount|intcomma }} {% translate "сом" %})</dd>{% endif %}
-        <dt>{% translate "Жалпы баасы" %}</dt><dd class="price"><strong>{{ booking.total_price|intcomma }} {% translate "сом" %}</strong></dd>
-      </dl>
-      <div class="actions">
-        <a href="{% url 'accounts:cabinet' %}" class="btn btn--ghost">{% translate "Менин брондоолорум" %}</a>
+<section class="section section--tight booking-page">
+  <div class="container">
+    <nav class="crumbs crumbs--dark">
+      <a href="{% url 'accounts:cabinet' %}">{% translate "Менин брондоолорум" %}</a> / {% translate "Арыз" %} #{{ booking.pk }}
+    </nav>
+
+    <div class="booking-head">
+      <div>
+        <h1>{% translate "Арыз" %} <span class="muted">#{{ booking.pk }}</span></h1>
+        <p class="muted">{% translate "Түзүлгөн" %}: {{ booking.created_at|date:"d.m.Y H:i" }}</p>
+      </div>
+      <span class="status status--lg status--{{ booking.status_css }}">{{ booking.get_status_display }}</span>
+    </div>
+
+    {% if booking.status_step %}
+    <ol class="progress">
+      <li class="{% if booking.status_step >= 1 %}is-done{% endif %}"><span><i class="fa-solid fa-paper-plane"></i></span>{% translate "Арыз жөнөтүлдү" %}</li>
+      <li class="{% if booking.status_step >= 2 %}is-done{% endif %}"><span><i class="fa-solid fa-phone"></i></span>{% translate "Ырасталды" %}</li>
+      <li class="{% if booking.status_step >= 3 %}is-done{% endif %}"><span><i class="fa-solid fa-credit-card"></i></span>{% translate "Төлөндү" %}</li>
+      <li class="{% if booking.status_step >= 4 %}is-done{% endif %}"><span><i class="fa-solid fa-plane"></i></span>{% translate "Саякат" %}</li>
+    </ol>
+    {% endif %}
+
+    <div class="booking-grid">
+      <div class="card booking-card">
+        <a href="{{ booking.tour.get_absolute_url }}" class="booking-card__cover">
+          <img src="{{ booking.tour.cover_url }}" alt="{{ booking.tour.title }}">
+          <div>
+            <small><i class="fa-solid fa-location-dot"></i> {{ booking.tour.country.name }}</small>
+            <h2>{{ booking.tour.title }}</h2>
+          </div>
+        </a>
+        <ul class="facts">
+          <li><i class="fa-regular fa-calendar"></i><div><small>{% translate "Учуу күнү" %}</small><strong>{{ booking.travel_date|date:"d.m.Y" }}</strong></div></li>
+          <li><i class="fa-regular fa-clock"></i><div><small>{% translate "Узактыгы" %}</small><strong>{{ booking.tour.duration_days }} {% translate "күн" %}</strong></div></li>
+          <li><i class="fa-solid fa-users"></i><div><small>{% translate "Кишилер" %}</small><strong>{{ booking.adults }} {% translate "чоң" %}{% if booking.children %}, {{ booking.children }} {% translate "бала" %}{% endif %}</strong></div></li>
+          <li><i class="fa-solid fa-hotel"></i><div><small>{% translate "Мейманкана" %}</small><strong>{{ booking.hotel.name|default:"—" }}</strong></div></li>
+        </ul>
+        <div class="contact-box">
+          <h3>{% translate "Байланыш" %}</h3>
+          <p><i class="fa-regular fa-user"></i> {{ booking.full_name }}</p>
+          <p><i class="fa-solid fa-phone"></i> {{ booking.phone }}</p>
+          {% if booking.email %}<p><i class="fa-regular fa-envelope"></i> {{ booking.email }}</p>{% endif %}
+          {% if booking.comment %}<p class="comment"><i class="fa-regular fa-comment"></i> {{ booking.comment }}</p>{% endif %}
+        </div>
+      </div>
+
+      <aside class="card card--pad price-card">
+        <h3>{% translate "Баасы" %}</h3>
+        <ul class="price-rows">
+          {% for row in booking.price_breakdown %}
+          <li>
+            <span>
+              {% if row.label == "adults" %}{% translate "Чоңдор" %}{% elif row.label == "children" %}{% translate "Балдар" %}{% else %}{% translate "Мейманкана" %}{% endif %}
+              <small>{{ row.qty }} × {{ row.unit|intcomma }}{% if row.label == "hotel" %} / {% translate "түн" %}{% endif %}</small>
+            </span>
+            <strong>{{ row.sum|intcomma }}</strong>
+          </li>
+          {% endfor %}
+          {% if booking.discount %}
+          <li class="price-rows__discount"><span>{% translate "Промокод" %} <small>{{ booking.promo.code }}</small></span><strong>−{{ booking.discount|intcomma }}</strong></li>
+          {% endif %}
+        </ul>
+        <div class="price-total"><span>{% translate "Жалпы" %}</span><strong>{{ booking.total_price|intcomma }} {% translate "сом" %}</strong></div>
+        <p class="muted small">{% translate "Азыр төлөөнүн кереги жок — менеджер чалып, баарын тактайт." %}</p>
+
+        <a href="https://wa.me/{{ CONTACTS.whatsapp }}?text={% translate 'Арыз' %}%20%23{{ booking.pk }}" target="_blank" rel="noopener" class="btn btn--whatsapp btn--block"><i class="fab fa-whatsapp"></i> {% translate "Менеджерге жазуу" %}</a>
         {% if booking.can_cancel %}
-        <form method="post" action="{% url 'bookings:cancel' booking.pk %}" class="inline" data-confirm="{% translate 'Брондоону чын эле жокко чыгарасызбы?' %}">
-          {% csrf_token %}<button class="btn btn--danger">{% translate "Жокко чыгаруу" %}</button>
+        <form method="post" action="{% url 'bookings:cancel' booking.pk %}" data-confirm="{% translate 'Брондоону чын эле жокко чыгарасызбы?' %}">
+          {% csrf_token %}<button class="btn btn--danger-ghost btn--block">{% translate "Жокко чыгаруу" %}</button>
         </form>
         {% endif %}
-      </div>
+      </aside>
     </div>
   </div>
 </section>

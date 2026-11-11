@@ -9,6 +9,7 @@ urlpatterns = [
     path("tours/", views.tour_list, name="list"),
     path("tours/<slug:slug>/", views.tour_detail, name="detail"),
     path("tours/<slug:slug>/review/", views.review_create, name="review"),
+    path("countries/", views.country_list, name="countries"),
     path("countries/<slug:slug>/", views.country_detail, name="country"),
     path("tours/<slug:slug>/favorite/", views.favorite_toggle, name="favorite"),
     path("blog/", views.article_list, name="articles"),

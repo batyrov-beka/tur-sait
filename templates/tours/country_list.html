@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Өлкөлөр" %}{% endblock %}
+{% block content %}
+<section class="page-head"><div class="container"><h1>{% translate "Өлкөлөр" %}</h1><p>{% translate "Бардык багыттар — өлкөнү тандап, турларын, мейманканаларын жана пайдалуу маалыматын көрүңүз." %}</p></div></section>
+<section class="section section--tight">
+  <div class="container">
+    <div class="grid grid--countries">
+      {% for country in countries %}
+        <a href="{{ country.get_absolute_url }}" class="country-tile">
+          <img src="{{ country.cover_url }}" alt="{{ country.name }}" loading="lazy">
+          <span class="country-tile__count"><i class="fa-solid fa-suitcase-rolling"></i> {{ country.tours_total }}</span>
+          <div class="country-tile__text">
+            <h3>{{ country.name }}</h3>
+            <p>{{ country.short }}</p>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
